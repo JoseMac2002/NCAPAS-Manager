@@ -15,3 +15,4 @@ D:\Senati-Proyectos\TRABAJO_MACURI\CapaPresentacion\bin\Debug\CapaEntidad.pdb
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaPresentacion\bin\Debug\CapaNegocio.pdb
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaPresentacion\bin\Debug\CapaDatos.pdb
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaPresentacion\obj\Debug\CapaPresentacion.csproj.CopyComplete
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaPresentacion\obj\Debug\CapaPresentacion.AlumnosCP.resources
