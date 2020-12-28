@@ -3,3 +3,4 @@ D:\Senati-Proyectos\TRABAJO_MACURI\CapaEntidad\bin\Debug\CapaEntidad.pdb
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaEntidad\obj\Debug\CapaEntidad.csproj.CoreCompileInputs.cache
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaEntidad\obj\Debug\CapaEntidad.dll
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaEntidad\obj\Debug\CapaEntidad.pdb
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaEntidad\obj\Debug\CapaEntidad.csprojAssemblyReference.cache

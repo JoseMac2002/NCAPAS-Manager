@@ -49,10 +49,10 @@ namespace CapaPresentacion
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvProfesores = new System.Windows.Forms.DataGridView();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
+            this.txtGrado = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.txtNivel = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProfesores)).BeginInit();
             this.SuspendLayout();
             // 
@@ -74,6 +74,7 @@ namespace CapaPresentacion
             this.btnEliminar.TabIndex = 58;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnActualizar
             // 
@@ -83,6 +84,7 @@ namespace CapaPresentacion
             this.btnActualizar.TabIndex = 57;
             this.btnActualizar.Text = "Actualizar";
             this.btnActualizar.UseVisualStyleBackColor = true;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
             // btnBuscar
             // 
@@ -92,6 +94,7 @@ namespace CapaPresentacion
             this.btnBuscar.TabIndex = 56;
             this.btnBuscar.Text = "BUSCAR";
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // label7
             // 
@@ -108,6 +111,7 @@ namespace CapaPresentacion
             this.txtBuscar.Name = "txtBuscar";
             this.txtBuscar.Size = new System.Drawing.Size(374, 20);
             this.txtBuscar.TabIndex = 54;
+            this.txtBuscar.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBuscar_KeyPress);
             // 
             // btnAgregar
             // 
@@ -117,6 +121,7 @@ namespace CapaPresentacion
             this.btnAgregar.TabIndex = 53;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
+            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
             // dtpFechaNac
             // 
@@ -139,6 +144,7 @@ namespace CapaPresentacion
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(157, 20);
             this.txtTelefono.TabIndex = 50;
+            this.txtTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTelefono_KeyPress);
             // 
             // txtDNI
             // 
@@ -147,6 +153,7 @@ namespace CapaPresentacion
             this.txtDNI.Name = "txtDNI";
             this.txtDNI.Size = new System.Drawing.Size(157, 20);
             this.txtDNI.TabIndex = 49;
+            this.txtDNI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDNI_KeyPress);
             // 
             // txtNombre
             // 
@@ -154,6 +161,7 @@ namespace CapaPresentacion
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(157, 20);
             this.txtNombre.TabIndex = 48;
+            this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             // 
             // txtId
             // 
@@ -229,19 +237,12 @@ namespace CapaPresentacion
             this.dgvProfesores.Size = new System.Drawing.Size(507, 152);
             this.dgvProfesores.TabIndex = 40;
             // 
-            // textBox1
+            // txtGrado
             // 
-            this.textBox1.Location = new System.Drawing.Point(232, 213);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(157, 20);
-            this.textBox1.TabIndex = 60;
-            // 
-            // maskedTextBox1
-            // 
-            this.maskedTextBox1.Location = new System.Drawing.Point(232, 239);
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(157, 20);
-            this.maskedTextBox1.TabIndex = 61;
+            this.txtGrado.Location = new System.Drawing.Point(232, 213);
+            this.txtGrado.Name = "txtGrado";
+            this.txtGrado.Size = new System.Drawing.Size(157, 20);
+            this.txtGrado.TabIndex = 60;
             // 
             // label9
             // 
@@ -261,15 +262,22 @@ namespace CapaPresentacion
             this.label10.TabIndex = 63;
             this.label10.Text = "Nivel";
             // 
+            // txtNivel
+            // 
+            this.txtNivel.Location = new System.Drawing.Point(232, 239);
+            this.txtNivel.Name = "txtNivel";
+            this.txtNivel.Size = new System.Drawing.Size(157, 20);
+            this.txtNivel.TabIndex = 64;
+            // 
             // AlumnosCP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(586, 623);
+            this.Controls.Add(this.txtNivel);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.maskedTextBox1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtGrado);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnActualizar);
@@ -320,9 +328,9 @@ namespace CapaPresentacion
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dgvProfesores;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
+        private System.Windows.Forms.TextBox txtGrado;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtNivel;
     }
 }

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CapaEntidad;
+using CapaNegocio;
 
 namespace CapaPresentacion
 {
@@ -16,5 +18,235 @@ namespace CapaPresentacion
         {
             InitializeComponent();
         }
+        private bool VerificarFormulario()
+        {
+            bool verificar = txtNombre.Text.Length > 0 && txtDNI.Text.Length > 0 && txtDNI.Text.Length > 0 && txtCorreo.Text.Length > 0;
+            return verificar;
+        }
+        private void LimpiarFormulario()
+        {
+            txtId.Text = "0";
+            txtNombre.Text = "";
+            txtDNI.Text = "";
+            txtTelefono.Text = "";
+            txtCorreo.Text = "";
+
+            dtpFechaNac.Value = DateTime.Now;
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            if (txtId.Text == "0")
+            {
+                if (VerificarFormulario())
+                {
+                    string nombre = txtNombre.Text;
+                    int dni = Convert.ToInt32(txtDNI.Text);
+                    DateTime fechaNac = dtpFechaNac.Value;
+                    int telefono = Convert.ToInt32(txtTelefono.Text);
+                    string correo = txtCorreo.Text;
+                    string nivel = txtNivel.Text;
+                    int grado = Convert.ToInt32(txtGrado.Text);
+
+
+                    EstudianteCE estudianteCE = new EstudianteCE(0, nombre, dni, fechaNac, telefono, correo, nivel, grado);
+                    EstudianteCN estudianteCN = new EstudianteCN();
+
+                    int idNuevo = estudianteCN.Crear(estudianteCE);
+                    txtId.Text = idNuevo.ToString();
+                }
+                else
+                {
+                    MessageBox.Show("Los datos del formulario no han sido rellenados correctamente.");
+                }
+            }
+            else
+            {
+                LimpiarFormulario();
+            }
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            if (txtBuscar.Text.Length > 0)
+            {
+                // extraer nombre a buscar
+                string name = txtBuscar.Text;
+                // Instanciar objeto ProfesorCN
+                EstudianteCN estudianteCN = new EstudianteCN();
+                // Insertar retornando los datos del metodo Buscarnombre
+                dgvProfesores.DataSource = estudianteCN.BusquedaNombre(name);
+            }
+            else
+            {
+                // Instanciar ProfesorCN
+                EstudianteCN estudianteCN = new EstudianteCN();
+                // Extraer todos los datos
+                dgvProfesores.DataSource = estudianteCN.Leer();
+            }
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            if (txtId.Text != "0")
+            {
+                if (VerificarFormulario())
+                {
+                    int id = Convert.ToInt32(txtId.Text);
+                    string nombre = txtNombre.Text;
+                    int dni = Convert.ToInt32(txtDNI.Text);
+                    DateTime fechaNac = dtpFechaNac.Value;
+                    int telefono = Convert.ToInt32(txtTelefono.Text);
+                    string correo = txtCorreo.Text;
+                    string nivel = txtNivel.Text;
+                    int grado = Convert.ToInt32(txtGrado.Text);
+
+                    EstudianteCE estudianteCE = new EstudianteCE(id, nombre, dni, fechaNac, telefono, correo,nivel,grado);
+
+                    EstudianteCN estudianteCN = new EstudianteCN();
+
+                    int numFile = estudianteCN.Actualizar(estudianteCE);
+
+                    MessageBox.Show(numFile + " Filas Actualizadas");
+
+
+                }
+                else
+                {
+                    MessageBox.Show("Al parecer no se ha llenado correctamente el formulario.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("No podemos actualizar con datos nulos o inexistentes.");
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (txtId.Text != "0")
+            {
+                int id = Convert.ToInt32(txtId.Text);
+                EstudianteCE estudianteCE = new EstudianteCE();
+                estudianteCE.Id = id;
+
+                EstudianteCN estudianteCN = new EstudianteCN();
+
+
+                int numFile = estudianteCN.Eliminar(estudianteCE);
+
+                MessageBox.Show(numFile + " Filas eliminadas");
+
+                if (numFile > 0)
+                {
+                    LimpiarFormulario();
+                }
+            }
+            else
+            {
+                MessageBox.Show("No podemos eliminar con datos nulos o inexistentes.");
+            }
+        }
+
+        private void txtBuscar_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Capturar letra introducida
+            char letra = e.KeyChar;
+            // Verificar si es:
+            // Letra
+            // Si es backspace
+            // Si es spacebar
+            // Si es "."
+            bool verificar = char.IsLetter(letra) || char.IsControl(letra) || char.IsWhiteSpace(letra) || letra == '.';
+
+
+            if (verificar)
+            {
+                // Si cumple los requisitos deja introducir la letra
+                e.Handled = false;
+            }
+            else
+            {
+                // Si no, no introduzcas la letra
+                e.Handled = true;
+            }
+            // Cambia la letra a mayuscula
+            e.KeyChar = char.ToUpper(letra);
+        }
+
+        private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Capturar letra introducida
+            char letra = e.KeyChar;
+            // Verificar si es:
+            // Letra
+            // Si es backspace
+            // Si es spacebar
+            // Si es "."
+            bool verificar = char.IsLetter(letra) || char.IsControl(letra) || char.IsWhiteSpace(letra) || letra == '.';
+
+
+            if (verificar)
+            {
+                // Si cumple los requisitos deja introducir la letra
+                e.Handled = false;
+            }
+            else
+            {
+                // Si no, no introduzcas la letra
+                e.Handled = true;
+            }
+            // Cambia la letra a mayuscula
+            e.KeyChar = char.ToUpper(letra);
+        }
+
+        private void txtDNI_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Capturar letra
+            char letra = e.KeyChar;
+
+            // Verificar si es:
+            // Numero
+            // Si es backspace
+            bool verificar = char.IsNumber(letra) || char.IsControl(letra);
+
+            if (verificar)
+            {
+                // Si cumple los requisitos deja introducir la letra
+                e.Handled = false;
+            }
+            else
+            {
+                // Si no, no introduzcas la letra
+                e.Handled = true;
+            }
+        }
+
+        private void txtTelefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Capturar letra
+            char letra = e.KeyChar;
+
+            // Verificar si es:
+            // Numero
+            // Si es backspace
+
+            bool verificar = char.IsNumber(letra) || char.IsControl(letra);
+
+            if (verificar)
+            {
+                // Si cumple los requisitos deja introducir la letra
+                e.Handled = false;
+            }
+            else
+            {
+                // Si no, no introduzcas la letra
+                e.Handled = true;
+            }
+        }
+
+        
+
+      
     }
 }

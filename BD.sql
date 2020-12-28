@@ -21,8 +21,8 @@ dni varchar(8),
 fechaNac date,
 telefono int,
 correo varchar(100),
-nivel varchar(5),
-grado varchar (2)
+nivel varchar(50),
+grado varchar (50)
 )
 
 create table Curso 
@@ -61,11 +61,15 @@ nota varchar(2)
 
 SELECT * from Information_Schema.Tables
 
-insert into profesor (nombre, dni, FechaNac, Telefono,Correo) values ('joe castillo','09512345','1979-03-15','959595959','joe@correo.com');
-insert into profesor (nombre, dni, FechaNac, Telefono,Correo) values ('jose haya','09564321','1985-05-25','998877661','haya@correo.com');
-insert into profesor (nombre, dni, FechaNac, Telefono,Correo) values ('carlos ampuero','09512345','1975-04-05','941234789','ampuero@correo.com');
+insert into Profesor (nombre, dni, FechaNac, Telefono,Correo) values ('joe castillo','09512345','1979-03-15','959595959','joe@correo.com');
+insert into Profesor (nombre, dni, FechaNac, Telefono,Correo) values ('jose haya','09564321','1985-05-25','998877661','haya@correo.com');
+insert into Profesor (nombre, dni, FechaNac, Telefono,Correo) values ('carlos ampuero','09512345','1975-04-05','941234789','ampuero@correo.com');
 
-select * from profesor
+insert into Estudiante(nombre, dni, fechaNac, telefono,correo,nivel,grado) values ('jose macuri','72614325','2002-07-03','917191954','jose@correo.com','Secun','5');
+insert into Estudiante(nombre, dni, fechaNac, telefono,correo,nivel,grado) values ('juan mamani','09564321','2001-12-21','998877661','mamani@correo.com','Secun','1');
+insert into Estudiante(nombre, dni, fechaNac, telefono,correo,nivel,grado) values ('carlos ampuero','09512345','1975-04-05','941234789','ampuero@correo.com');
+
+select * from Estudiante
 
 use master;
 

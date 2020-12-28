@@ -273,5 +273,10 @@ namespace CapaPresentacion
                 e.Handled = true;
             }
         }
+
+        private void txtTelefono_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
