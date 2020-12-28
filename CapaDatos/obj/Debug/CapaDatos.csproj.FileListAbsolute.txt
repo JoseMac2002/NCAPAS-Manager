@@ -1,0 +1,9 @@
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\obj\Debug\CapaDatos.csprojAssemblyReference.cache
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\obj\Debug\CapaDatos.csproj.CoreCompileInputs.cache
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\bin\Debug\CapaDatos.dll
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\bin\Debug\CapaDatos.pdb
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\bin\Debug\CapaEntidad.dll
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\bin\Debug\CapaEntidad.pdb
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\obj\Debug\CapaDatos.csproj.CopyComplete
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\obj\Debug\CapaDatos.dll
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\obj\Debug\CapaDatos.pdb
