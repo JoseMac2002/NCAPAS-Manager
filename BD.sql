@@ -1,6 +1,6 @@
-CREATE DATABASE BD_FINAL_MACURI;
+CREATE DATABASE BD_MACURI;
 
-USE BD_FINAL_MACURI;
+USE BD_MACURI;
 
 
 create table Profesor
@@ -40,6 +40,8 @@ descripcion varchar(100)
 create table Registro
 (
 id int identity(1,1) primary key not null,
+idRegistro int 
+foreign key (idProfesor) references profesor(id),
 idProfesor int 
 foreign key (idProfesor) references profesor(id),
 idCurso int
@@ -51,13 +53,31 @@ fechaTermino date
 create table Notas
 (
 id int identity(1,1) primary key not null,
-idEstudiante int 
+idEstudiante int
 foreign key (idEstudiante) references estudiante(id),
 idEvaluacion int
 foreign key (idEvaluacion) references evaluacion(id),
-nota varchar(2)
+nota varchar(2),
+idRegistro int 
+foreign key (idRegistro) references registro(id)
 )
 
+ALTER TABLE Registro
+ADD FOREIGN KEY (idProfesor) REFERENCES Profesor(id);
+
+
+ALTER TABLE Registro
+ADD FOREIGN KEY (idCurso) REFERENCES Curso(id);
+
+ALTER TABLE Notas
+ADD FOREIGN KEY (idEstudiante) REFERENCES Estudiante(id);
+
+
+ALTER TABLE Notas
+ADD FOREIGN KEY (idEvaluacion) REFERENCES Evaluacion(id);
+
+ALTER TABLE Notas
+ADD FOREIGN KEY (idRegistro) REFERENCES Registro(id);
 
 SELECT * from Information_Schema.Tables
 
@@ -67,11 +87,12 @@ insert into Profesor (nombre, dni, FechaNac, Telefono,Correo) values ('carlos am
 
 insert into Estudiante(nombre, dni, fechaNac, telefono,correo,nivel,grado) values ('jose macuri','72614325','2002-07-03','917191954','jose@correo.com','Secun','5');
 insert into Estudiante(nombre, dni, fechaNac, telefono,correo,nivel,grado) values ('juan mamani','09564321','2001-12-21','998877661','mamani@correo.com','Secun','1');
-insert into Estudiante(nombre, dni, fechaNac, telefono,correo,nivel,grado) values ('carlos ampuero','09512345','1975-04-05','941234789','ampuero@correo.com');
 
-select * from Evaluacion
+
+select * from Registro
+select * from Notas;
 
 use master;
 
-drop database BD_FINAL_MACURI;
+drop database BD_MACURI;
 

@@ -28,5 +28,6 @@ namespace CapaEntidad
             this.id = id;
             this.nombre = nombre;
         }
+        
     }
 }

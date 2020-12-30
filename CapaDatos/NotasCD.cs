@@ -18,14 +18,14 @@ namespace CapaDatos
             cnx.Open();
             SqlCommand cmd = cnx.CreateCommand();
             cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "insert into notas (idEstudiante, idEvalucion, idRegistro, nota) " +
+            cmd.CommandText = "insert into Notas (idEstudiante, idEvaluacion, idRegistro, nota) " +
                 "values (@idEstudiante, @idEvalucion, @idRegistro, @nota)";
             cmd.Parameters.AddWithValue("@idEstudiante", notasCE.IdEstudiante);
             cmd.Parameters.AddWithValue("@idEvalucion", notasCE.IdEvaluacion);
             cmd.Parameters.AddWithValue("@idRegistro", notasCE.IdRegistro);
             cmd.Parameters.AddWithValue("@nota", notasCE.Nota);
 
-            int numFilas = 0;
+            int numFilas = cmd.ExecuteNonQuery();
 
             /***********************
              * Iniciar transaccion *

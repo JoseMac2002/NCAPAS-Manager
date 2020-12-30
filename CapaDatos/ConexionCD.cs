@@ -16,7 +16,7 @@ namespace CapaDatos
             SqlConnectionStringBuilder generadorCadena = new SqlConnectionStringBuilder();
             //Asignar los valores de la cadena
             generadorCadena.DataSource = "localhost"; //servidor
-            generadorCadena.InitialCatalog = "BD_FINAL_MACURI"; //base de datos
+            generadorCadena.InitialCatalog = "BD_MACURI"; //base de datos
             generadorCadena.IntegratedSecurity = true; //Activar autenticación Windows
             //generadorCadena.UserID = "sa"; //usuario
             //generadorCadena.Password = "123456"; //contraseña

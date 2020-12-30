@@ -14,7 +14,7 @@ namespace CapaNegocio
         public int insertar(RegistroCE registroCE)
         {
             RegistroCD registroCD = new RegistroCD();
-            int numFilas = registroCD.insertar(registroCE);
+            int numFilas = registroCD.Crear(registroCE);
             return numFilas;
         }
     }

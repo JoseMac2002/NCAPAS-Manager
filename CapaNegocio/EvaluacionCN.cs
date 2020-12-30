@@ -47,5 +47,16 @@ namespace CapaNegocio
             int nunFilas = evaluacionCD.eliminar(evaluacionCE);
             return nunFilas;
         }
+        public List<EvaluacionCE> Leer()
+        {
+            // Instanciamos capaDatos
+            EvaluacionCD evaluacionCD = new EvaluacionCD();
+
+            // Creamos lista
+            List<EvaluacionCE> evaluacionCEs = evaluacionCD.Leer();
+
+            // retornamos lista
+            return evaluacionCEs;
+        }
     }
 }

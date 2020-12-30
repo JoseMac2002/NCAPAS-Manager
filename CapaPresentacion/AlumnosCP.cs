@@ -108,13 +108,14 @@ namespace CapaPresentacion
             int id = Convert.ToInt32(txtId.Text);
             string nombre = txtNombre.Text;
             string dni = txtDNI.Text;
+            DateTime fechaNac = dtpFechaNac.Value;
             string telefono = txtTelefono.Text;
             string correo = txtCorreo.Text;
             string grado = txtGrado.Text;
             string nivel = txtNivel.Text;
                 
             //Instanciar un ClienteCE
-            EstudianteCE estudianteCE = new EstudianteCE(id, nombre, dni, telefono, correo,grado,nivel);
+            EstudianteCE estudianteCE = new EstudianteCE(id, nombre, dni, fechaNac, telefono, correo,grado,nivel);
             //Instanciar un ClienteCN
             EstudianteCN estudianteCN = new EstudianteCN();
 

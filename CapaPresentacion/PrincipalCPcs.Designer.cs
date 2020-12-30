@@ -51,7 +51,7 @@ namespace CapaPresentacion
             this.ventanasToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(929, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1030, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -91,12 +91,14 @@ namespace CapaPresentacion
             this.cursoToolStripMenuItem.Name = "cursoToolStripMenuItem";
             this.cursoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cursoToolStripMenuItem.Text = "Curso";
+            this.cursoToolStripMenuItem.Click += new System.EventHandler(this.cursoToolStripMenuItem_Click);
             // 
             // evaluaciónToolStripMenuItem
             // 
             this.evaluaciónToolStripMenuItem.Name = "evaluaciónToolStripMenuItem";
             this.evaluaciónToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.evaluaciónToolStripMenuItem.Text = "Evaluación";
+            this.evaluaciónToolStripMenuItem.Click += new System.EventHandler(this.evaluaciónToolStripMenuItem_Click);
             // 
             // procesosToolStripMenuItem
             // 
@@ -111,6 +113,7 @@ namespace CapaPresentacion
             this.registroToolStripMenuItem.Name = "registroToolStripMenuItem";
             this.registroToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.registroToolStripMenuItem.Text = "Registro";
+            this.registroToolStripMenuItem.Click += new System.EventHandler(this.registroToolStripMenuItem_Click);
             // 
             // ventanasToolStripMenuItem
             // 
@@ -122,7 +125,7 @@ namespace CapaPresentacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(929, 869);
+            this.ClientSize = new System.Drawing.Size(1030, 617);
             this.Controls.Add(this.menuStrip1);
             this.IsMdiContainer = true;
             this.Name = "PrincipalCPcs";

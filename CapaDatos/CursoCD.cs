@@ -194,5 +194,79 @@ namespace CapaDatos
 
             return numFilas;
         }
+        public int Crear(CursoCE cursoCE)
+        {
+            // Crear conexion
+            SqlConnection cn = ConexionCD.conectarBD();
+
+            // Abrir conexion
+            cn.Open();
+
+            // Crear comando
+            SqlCommand cmd = cn.CreateCommand();
+
+            // Definir tipo de comando
+            cmd.CommandType = CommandType.Text;
+
+            // Asignar consulta SQL
+            cmd.CommandText = "INSERT INTO Curso(nombre) " +
+                "VALUES(@nombre)";
+
+            // Asignar parametros a consulta
+            cmd.Parameters.AddWithValue("@nombre", cursoCE.Nombre);
+
+            // Ejecutar comando
+            int numFilas;
+
+            using (SqlTransaction transaction = cn.BeginTransaction())
+            {
+                cmd.Transaction = transaction;
+                try
+                {
+                    numFilas = cmd.ExecuteNonQuery();
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    numFilas = 0;
+                }
+            }
+            // Declarar variable nuevo id
+            int nuevoID;
+
+            if (numFilas > 0)
+            {
+                // Asignar nuevo SQL
+                cmd.CommandText = "SELECT MAX(id) as nuevoId from Curso " +
+                    "where nombre = @nombre";
+                // Actualizar parametro
+                cmd.Parameters["@nombre"].Value = cursoCE.Nombre;
+
+                // Ejecutar el comando
+                SqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    // Consulta exitosa
+                    nuevoID = Convert.ToInt32(dataReader["nuevoId"]);
+                }
+                else
+                {
+                    // Consulta Fallida
+                    nuevoID = 0;
+                }
+            }
+            else
+            {
+                nuevoID = 0;
+            }
+
+            // Cerramos la conexion
+            cn.Close();
+
+            // retornar nuevo id
+            return nuevoID;
+        }
     }
 }

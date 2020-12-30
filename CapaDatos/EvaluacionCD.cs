@@ -173,6 +173,50 @@ namespace CapaDatos
             return numFilas;
 
         }
+        public List<EvaluacionCE> Leer()
+        {
+            // Establecemos la conexion
+            SqlConnection cn = ConexionCD.conectarBD();
+
+            // Abrimos la conexion
+            cn.Open();
+
+            // Instanciamos nuestro comando
+            SqlCommand cmd = cn.CreateCommand();
+
+            // Definimos el tipo de comando
+            cmd.CommandType = CommandType.Text;
+
+            // Establecemos nuestra consulta 
+            cmd.CommandText = "select * from Evaluacion";
+
+            // Ejecutamos la consulta
+            SqlDataReader dataReader = cmd.ExecuteReader();
+
+            // Creamos una lista de Evaluaciones
+            List<EvaluacionCE> evaluacionCEs = new List<EvaluacionCE>();
+
+            // Leemos todas las filas capturadas
+            while (dataReader.Read())
+            {
+                // Capturamos los valores
+                int id = Convert.ToInt32(dataReader["id"]);
+                string descripcion = dataReader["descripcion"].ToString();
+
+                // Creamos un nuevo objeto
+                EvaluacionCE evaluacionCE = new EvaluacionCE(id, descripcion);
+
+                // Agregamos el objeto a nuestra lista
+                evaluacionCEs.Add(evaluacionCE);
+            }
+
+            // Cerramos nuestra conexion
+            cn.Close();
+
+            // Retornamos nuestra lista
+            return evaluacionCEs;
+        }
+
         public int eliminar(EvaluacionCE evaluacionCE)
         {
             SqlConnection cnx = ConexionCD.conectarBD();

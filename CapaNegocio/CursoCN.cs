@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using CapaDatos;
 using CapaEntidad;
 
@@ -11,6 +10,7 @@ namespace CapaNegocio
 {
     public class CursoCN
     {
+       
         public CursoCE buscarId(int IdBuscado)
         {
             CursoCD cursoCD = new CursoCD();
@@ -41,5 +41,6 @@ namespace CapaNegocio
             int nunFilas = cursoCD.eliminar(cursoCE);
             return nunFilas;
         }
+        
     }
 }
