@@ -69,7 +69,7 @@ insert into Estudiante(nombre, dni, fechaNac, telefono,correo,nivel,grado) value
 insert into Estudiante(nombre, dni, fechaNac, telefono,correo,nivel,grado) values ('juan mamani','09564321','2001-12-21','998877661','mamani@correo.com','Secun','1');
 insert into Estudiante(nombre, dni, fechaNac, telefono,correo,nivel,grado) values ('carlos ampuero','09512345','1975-04-05','941234789','ampuero@correo.com');
 
-select * from Estudiante
+select * from Evaluacion
 
 use master;
 

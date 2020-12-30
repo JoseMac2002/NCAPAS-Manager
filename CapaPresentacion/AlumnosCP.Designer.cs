@@ -48,12 +48,12 @@ namespace CapaPresentacion
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.dgvProfesores = new System.Windows.Forms.DataGridView();
+            this.dgvEstudiantes = new System.Windows.Forms.DataGridView();
             this.txtGrado = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.txtNivel = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvProfesores)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEstudiantes)).BeginInit();
             this.SuspendLayout();
             // 
             // label8
@@ -226,16 +226,17 @@ namespace CapaPresentacion
             this.label1.TabIndex = 41;
             this.label1.Text = "ID";
             // 
-            // dgvProfesores
+            // dgvEstudiantes
             // 
-            this.dgvProfesores.AllowUserToAddRows = false;
-            this.dgvProfesores.AllowUserToDeleteRows = false;
-            this.dgvProfesores.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            this.dgvProfesores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProfesores.Location = new System.Drawing.Point(32, 420);
-            this.dgvProfesores.Name = "dgvProfesores";
-            this.dgvProfesores.Size = new System.Drawing.Size(507, 152);
-            this.dgvProfesores.TabIndex = 40;
+            this.dgvEstudiantes.AllowUserToAddRows = false;
+            this.dgvEstudiantes.AllowUserToDeleteRows = false;
+            this.dgvEstudiantes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvEstudiantes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvEstudiantes.Location = new System.Drawing.Point(32, 420);
+            this.dgvEstudiantes.Name = "dgvEstudiantes";
+            this.dgvEstudiantes.Size = new System.Drawing.Size(507, 152);
+            this.dgvEstudiantes.TabIndex = 40;
+            this.dgvEstudiantes.SelectionChanged += new System.EventHandler(this.dgvEstudiantes_SelectionChanged);
             // 
             // txtGrado
             // 
@@ -297,10 +298,10 @@ namespace CapaPresentacion
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dgvProfesores);
+            this.Controls.Add(this.dgvEstudiantes);
             this.Name = "AlumnosCP";
             this.Text = "AlumnosCP";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvProfesores)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEstudiantes)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -327,7 +328,7 @@ namespace CapaPresentacion
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dgvProfesores;
+        private System.Windows.Forms.DataGridView dgvEstudiantes;
         private System.Windows.Forms.TextBox txtGrado;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;

@@ -3,231 +3,210 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using CapaEntidad;
 using System.Data;
 using System.Data.SqlClient;
+
 namespace CapaDatos
 {
     public class EvaluacionCD
     {
-        // Crear
-        public int Crear(EvaluacionCE evaluacionCE)
+        public DataTable ListarEvaluacion()
         {
-            // Establecemos la conexion
             SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrimos conexion
             cn.Open();
 
-            // Creamos comando de consulta
             SqlCommand cmd = cn.CreateCommand();
-
-            // Especificamos que tipo de comando sera
             cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "select * from evaluacion";
+            SqlDataAdapter datos = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            datos.Fill(dt);
+            cn.Close();
+            return dt;
+        }
+        public EvaluacionCE buscarId(int IdBuscado)
+        {
+            SqlConnection cn = ConexionCD.conectarBD();
+            cn.Open();
 
-            // Especificamos consulta
-            cmd.CommandText = "insert into Evaluacion (descripcion) " +
-                "values (@descripcion)";
+            SqlCommand cmd = cn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "select * from evaluacion where id=@id";
+            cmd.Parameters.AddWithValue("@id", IdBuscado);
+            SqlDataReader drProfesor = cmd.ExecuteReader();//select
+            int id;
+            string descripcion;
 
-            // Especificamos los parametros
+            if (drProfesor.Read())
+            {
+                id = Convert.ToInt32(drProfesor["id"]);
+                descripcion = Convert.ToString(drProfesor["descripcion"]);
+            }
+            else
+            {
+                id = 0;
+                descripcion = "";
+            }
+            cn.Close();
+            EvaluacionCE evaluacionCE = new EvaluacionCE(id, descripcion);
+            return evaluacionCE;
+        }
+        public List<EvaluacionCE> buscarDescripcion(string DesBuscado)
+        {
+            SqlConnection cnx = ConexionCD.conectarBD();
+            cnx.Open();
+            SqlCommand cmd = cnx.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "select * from evaluacion where descripcion like '%' + @descripcion + '%'";
+            cmd.Parameters.AddWithValue("@descripcion", DesBuscado);
+            SqlDataReader drEvaluacion = cmd.ExecuteReader(); // SELECT
+
+            List<EvaluacionCE> evaluacionesCE = new List<EvaluacionCE>();
+
+            while (drEvaluacion.Read())
+            {
+                int id = Convert.ToInt32(drEvaluacion["id"]);
+                string descripcion = Convert.ToString(drEvaluacion["descripcion"]);
+
+                EvaluacionCE evaluacionCE = new EvaluacionCE(id, descripcion);
+
+                evaluacionesCE.Add(evaluacionCE);
+
+            }
+
+            cnx.Close();
+
+            return evaluacionesCE;
+        }
+        public int insertar(EvaluacionCE evaluacionCE)
+        {
+            SqlConnection cnx = ConexionCD.conectarBD();
+            cnx.Open();
+            SqlCommand cmd = cnx.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "insert into evaluacion (descripcion) values (@descripcion)";
             cmd.Parameters.AddWithValue("@descripcion", evaluacionCE.Descripcion);
 
-            // Ejecutamos la consulta y extraemos la cantidad de filas afectadas
-            int numFilas = cmd.ExecuteNonQuery();
+            int numFilas = 0;
 
-            // instanciamos el nuevo id sin valor
-            int nuevoID;
+            /***********************
+             * Iniciar transaccion *
+            ************************/
 
-            // Condicionalmente definiremos el valor de nuevo id
+            using (SqlTransaction transaccion = cnx.BeginTransaction())
+            {
+                //vincular comando a la transaccion
+                cmd.Transaction = transaccion;
+                try
+                {
+                    //Ejecutar el comando
+                    numFilas = cmd.ExecuteNonQuery(); // INSERT, UPDATE, DELETE
+                    transaccion.Commit();
+                }
+                catch (Exception)
+                {
+                    transaccion.Rollback();
+                    numFilas = 0;
+                }
+            }
+            int nuevoId;
             if (numFilas > 0)
             {
-                // Especificamos otra consulta
-                cmd.CommandText = "select max(id) as nuevoId from Evaluacion" +
-                    " where descripcion = @descripcion";
-
-                // Editamos el parametro
+                cmd.CommandText = "select max(id) as nuevoId from evaluacion " +
+                    "where descripcion=@descripcion";
                 cmd.Parameters["@descripcion"].Value = evaluacionCE.Descripcion;
-
-                // Ejecutamos la consulta
-                SqlDataReader dataReader = cmd.ExecuteReader();
-
-                // Verificamos si existe la fila
-                if (dataReader.Read())
+                SqlDataReader drEvaluacion = cmd.ExecuteReader();
+                if (drEvaluacion.Read())
                 {
-                    // Extraemos el nuevo id obtenido
-                    nuevoID = Convert.ToInt32(dataReader["nuevoId"]);
+                    nuevoId = Convert.ToInt32(drEvaluacion["nuevoId"]);
                 }
                 else
                 {
-                    // Como no existe fila el valor sera 0
-                    nuevoID = 0;
+                    nuevoId = 0;
                 }
             }
             else
             {
-                nuevoID = 0;
-            }
-            // Cerramos la conexion
-            cn.Close();
-
-            // Retornarmos el valor obtenido, el nuevo id
-            return nuevoID;
-        }
-
-        // Leer (todos)
-        public List<EvaluacionCE> Leer()
-        {
-            // Establecemos la conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrimos la conexion
-            cn.Open();
-
-            // Instanciamos nuestro comando
-            SqlCommand cmd = cn.CreateCommand();
-
-            // Definimos el tipo de comando
-            cmd.CommandType = CommandType.Text;
-
-            // Establecemos nuestra consulta 
-            cmd.CommandText = "select * from Evaluacion";
-
-            // Ejecutamos la consulta
-            SqlDataReader dataReader = cmd.ExecuteReader();
-
-            // Creamos una lista de Evaluaciones
-            List<EvaluacionCE> evaluacionCEs = new List<EvaluacionCE>();
-
-            // Leemos todas las filas capturadas
-            while (dataReader.Read())
-            {
-                // Capturamos los valores
-                int id = Convert.ToInt32(dataReader["id"]);
-                string descripcion = dataReader["descripcion"].ToString();
-
-                // Creamos un nuevo objeto
-                EvaluacionCE evaluacionCE = new EvaluacionCE(id, descripcion);
-
-                // Agregamos el objeto a nuestra lista
-                evaluacionCEs.Add(evaluacionCE);
+                nuevoId = 0;
             }
 
-            // Cerramos nuestra conexion
-            cn.Close();
+            cnx.Close();
 
-            // Retornamos nuestra lista
-            return evaluacionCEs;
+            return nuevoId;
         }
-
-        // Actualizar
-        public int Actualizar(EvaluacionCE evaluacionCE)
+        public int actualizar(EvaluacionCE evaluacionCE)
         {
-            // Establecer conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrir conexion
-            cn.Open();
-
-            // Creamos nuestro comando
-            SqlCommand cmd = cn.CreateCommand();
-
-            // Definimos el tipo de comando
+            SqlConnection cnx = ConexionCD.conectarBD();
+            cnx.Open();
+            SqlCommand cmd = cnx.CreateCommand();
             cmd.CommandType = CommandType.Text;
-
-            // Establecemos la consulta
-            cmd.CommandText = "update Evaluacion set descripcion = @descripcion where id = @id";
-
-            // Agregamos parametros con valores
-            cmd.Parameters.AddWithValue("@id", evaluacionCE.Id);
+            cmd.CommandText = "update evaluacion set descripcion=@descripcion where id=@id";
             cmd.Parameters.AddWithValue("@descripcion", evaluacionCE.Descripcion);
-
-            // Ejecutamos la consulta
-            int numFilas = cmd.ExecuteNonQuery();
-
-            // cerramos la conexion
-            cn.Close();
-
-            // Retornamos la cantidad de filas afectadas
-            return numFilas;
-
-        }
-
-        // Eliminar
-        public int Eliminar(EvaluacionCE evaluacionCE)
-        {
-            // Establecer conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrir conexion
-            cn.Open();
-
-            // Creamos el comando
-            SqlCommand cmd = cn.CreateCommand();
-
-            // Definimos el tipo de comando
-            cmd.CommandType = CommandType.Text;
-
-            // Establecemos la consulta
-            cmd.CommandText = "delete from Evaluacion where id = @id";
-
-            // Agregamos los parametros
             cmd.Parameters.AddWithValue("@id", evaluacionCE.Id);
 
-            // Ejecutamos la consulta
-            int numFilas = cmd.ExecuteNonQuery();
+            int numFilas = 0;
 
-            // cerramos la conexion
-            cn.Close();
+            /***********************
+             * Iniciar transaccion *
+            ************************/
 
-            // Retornamos la cantidad de filas afectadas
+            using (SqlTransaction transaccion = cnx.BeginTransaction())
+            {
+                //vincular comando a la transaccion
+                cmd.Transaction = transaccion;
+                try
+                {
+                    //Ejecutar el comando
+                    numFilas = cmd.ExecuteNonQuery(); // INSERT, UPDATE, DELETE
+                    transaccion.Commit();
+                }
+                catch (Exception)
+                {
+                    transaccion.Rollback();
+                    numFilas = 0;
+                }
+            }
+            cnx.Close();
+
             return numFilas;
 
         }
-
-        // Buscar por descripcion
-        public List<EvaluacionCE> BuscarDescripcion(string nombreBuscar)
+        public int eliminar(EvaluacionCE evaluacionCE)
         {
-            // Establecer conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrir conexion
-            cn.Open();
-
-            // crear comando
-            SqlCommand cmd = cn.CreateCommand();
-
-            // Definimos el tipo de comando
+            SqlConnection cnx = ConexionCD.conectarBD();
+            cnx.Open();
+            SqlCommand cmd = cnx.CreateCommand();
             cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "delete from evaluacion where id=@id";
+            cmd.Parameters.AddWithValue("@id", evaluacionCE.Id);
 
-            // Establecemos la consulta
-            cmd.CommandText = "Select * from Evaluacion" +
-                " where descripcion like '%' + @descripcion + '%'";
+            int numFilas = 0;
 
-            // ejecutamos la consulta
-            SqlDataReader dataReader = cmd.ExecuteReader();
+            /***********************
+             * Iniciar transaccion *
+            ************************/
 
-            // Creamos nuesta lista de productos
-            List<EvaluacionCE> evaluacionCEs = new List<EvaluacionCE>();
-
-            // Leemos todas las filas
-            while (dataReader.Read())
+            using (SqlTransaction transaccion = cnx.BeginTransaction())
             {
-                // Capturamos filas
-                int id = Convert.ToInt32(dataReader["id"]);
-                string descripcion = dataReader["descripcion"].ToString();
-
-                // Creamos nuevo objeto
-                EvaluacionCE evaluacionCE = new EvaluacionCE(id, descripcion);
-
-                // Agregamos obj a lista
-                evaluacionCEs.Add(evaluacionCE);
+                //vincular comando a la transaccion
+                cmd.Transaction = transaccion;
+                try
+                {
+                    //Ejecutar el comando
+                    numFilas = cmd.ExecuteNonQuery(); // INSERT, UPDATE, DELETE
+                    transaccion.Commit();
+                }
+                catch (Exception)
+                {
+                    transaccion.Rollback();
+                    numFilas = 0;
+                }
             }
+            cnx.Close();
 
-            // Cerramos la conexion
-            cn.Close();
-
-            // Retornamos la lista
-            return evaluacionCEs;
+            return numFilas;
         }
     }
 }

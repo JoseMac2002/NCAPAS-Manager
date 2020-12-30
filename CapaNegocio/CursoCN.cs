@@ -3,73 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CapaEntidad;
+
 using CapaDatos;
+using CapaEntidad;
 
 namespace CapaNegocio
 {
     public class CursoCN
     {
-        // Crear curso
-        public int Crear(CursoCE cursoCE)
+        public CursoCE buscarId(int IdBuscado)
         {
-            // Instanciamos obj de capa datos
             CursoCD cursoCD = new CursoCD();
-            // Instanciamos una variable para almacenar el nuevo id
-            int nuevoID = cursoCD.Crear(cursoCE);
-            // retonarmos el nuevo id
-            return nuevoID;
+            CursoCE CursoCE = cursoCD.buscarId(IdBuscado);
+            return CursoCE;
         }
-
-        // Leer todos los cursos
-        public List<CursoCE> Leer()
+        public List<CursoCE> buscarNombre(string DesNom)
         {
-            // Instanciamos obj de capa datos
             CursoCD cursoCD = new CursoCD();
-
-            // Creamos una lista de cursos
-            List<CursoCE> cursoCEs = cursoCD.Leer();
-
-            // retornamos nuestro resultado
-            return cursoCEs;
+            List<CursoCE> CursosCE = cursoCD.buscarNombre(DesNom);
+            return CursosCE;
         }
-
-        // Actualizar curso
-        public int Actualizar(CursoCE cursoCE)
+        public int insertar(CursoCE cursoCE)
         {
-            // Instanciamos a la capa de conexion
             CursoCD cursoCD = new CursoCD();
-            // Llamamos al metodo y lo almacenamos
-            int numFilas = cursoCD.Actualizar(cursoCE);
-
-            // retornamos nuestro resultado
-            return numFilas;
+            int nunFilas = cursoCD.insertar(cursoCE);
+            return nunFilas;
         }
-
-        // Eliminar curso
-        public int Eliminar(CursoCE cursoCE)
+        public int actualizar(CursoCE cursoCE)
         {
-            // Instanciamos la clase que tiene la conexion
             CursoCD cursoCD = new CursoCD();
-
-            // Llamar al metodo y almacenarlo
-            int numFilas = cursoCD.Eliminar(cursoCE);
-
-            // retornamos nuestro resultado
-            return numFilas;
+            int nunFilas = cursoCD.actualizar(cursoCE);
+            return nunFilas;
         }
-
-        // Busqueda por nombre
-        public List<CursoCE> LeerNombre(string nombre)
+        public int eliminar(CursoCE cursoCE)
         {
-            // Instanciamos la clase que tiene nuestra conexion
             CursoCD cursoCD = new CursoCD();
-
-            // Llamar al metodo y lo almacenamos
-            List<CursoCE> cursoCEs = cursoCD.LeerNombre(nombre);
-
-            // Retornamos nuestro resultado
-            return cursoCEs;
+            int nunFilas = cursoCD.eliminar(cursoCE);
+            return nunFilas;
         }
     }
 }

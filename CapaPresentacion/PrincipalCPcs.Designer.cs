@@ -51,7 +51,7 @@ namespace CapaPresentacion
             this.ventanasToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(929, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -75,25 +75,27 @@ namespace CapaPresentacion
             // profesorToolStripMenuItem
             // 
             this.profesorToolStripMenuItem.Name = "profesorToolStripMenuItem";
-            this.profesorToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.profesorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.profesorToolStripMenuItem.Text = "Profesor";
+            this.profesorToolStripMenuItem.Click += new System.EventHandler(this.profesorToolStripMenuItem_Click);
             // 
             // estudianteToolStripMenuItem
             // 
             this.estudianteToolStripMenuItem.Name = "estudianteToolStripMenuItem";
-            this.estudianteToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.estudianteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.estudianteToolStripMenuItem.Text = "Estudiante";
+            this.estudianteToolStripMenuItem.Click += new System.EventHandler(this.estudianteToolStripMenuItem_Click);
             // 
             // cursoToolStripMenuItem
             // 
             this.cursoToolStripMenuItem.Name = "cursoToolStripMenuItem";
-            this.cursoToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.cursoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cursoToolStripMenuItem.Text = "Curso";
             // 
             // evaluaciónToolStripMenuItem
             // 
             this.evaluaciónToolStripMenuItem.Name = "evaluaciónToolStripMenuItem";
-            this.evaluaciónToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.evaluaciónToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.evaluaciónToolStripMenuItem.Text = "Evaluación";
             // 
             // procesosToolStripMenuItem
@@ -107,7 +109,7 @@ namespace CapaPresentacion
             // registroToolStripMenuItem
             // 
             this.registroToolStripMenuItem.Name = "registroToolStripMenuItem";
-            this.registroToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.registroToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.registroToolStripMenuItem.Text = "Registro";
             // 
             // ventanasToolStripMenuItem
@@ -120,8 +122,9 @@ namespace CapaPresentacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(929, 869);
             this.Controls.Add(this.menuStrip1);
+            this.IsMdiContainer = true;
             this.Name = "PrincipalCPcs";
             this.Text = "PrincipalCPcs";
             this.menuStrip1.ResumeLayout(false);

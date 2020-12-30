@@ -16,5 +16,25 @@ namespace CapaPresentacion
         {
             InitializeComponent();
         }
+
+        private void profesorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ProfesorCP profesorCP = new ProfesorCP();
+            //establecer como hijo
+            profesorCP.MdiParent = this;
+            //maximizar
+            profesorCP.WindowState = FormWindowState.Maximized;
+            profesorCP.Show();
+        }
+
+        private void estudianteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AlumnosCP alumnosCP = new AlumnosCP();
+            //establecer como hijo
+            alumnosCP.MdiParent = this;
+            //maximizar
+            alumnosCP.WindowState = FormWindowState.Maximized;
+            alumnosCP.Show();
+        }
     }
 }

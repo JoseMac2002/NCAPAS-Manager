@@ -3,193 +3,73 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using CapaEntidad;
 using System.Data;
 using System.Data.SqlClient;
+
 namespace CapaDatos
 {
     public class RegistroCD
     {
-        // Crear
-        public int Crear(RegistroCE registroCE)
+        public int insertar(RegistroCE registroCE)
         {
-            // establecer conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrir conexion
-            cn.Open();
-
-            // Crear el comanod
-            SqlCommand cmd = cn.CreateCommand();
-
-            // Establecer el tipo de comando
+            SqlConnection cnx = ConexionCD.conectarBD();
+            cnx.Open();
+            SqlCommand cmd = cnx.CreateCommand();
             cmd.CommandType = CommandType.Text;
-
-            // Establecer la consulta
-            cmd.CommandText = "insert Registro " +
-                "into (idProfesor, idCurso, fechaInicio, fechaTermino) " +
-                "values (@idProfesor, @idCurso, @fechaInicio, @fechaTermino)";
-
-            // Agregar parametros
+            cmd.CommandText = "insert into registro (idProfesor, idCurso, fechainicio, fechatermino) " +
+                "values (@idProfesor, @idCurso, @fechainicio, @fechatermino)";
             cmd.Parameters.AddWithValue("@idProfesor", registroCE.IdProfesor);
             cmd.Parameters.AddWithValue("@idCurso", registroCE.IdCurso);
-            cmd.Parameters.AddWithValue("@fechaInicio", registroCE.FechaInicio.ToLocalTime());
-            cmd.Parameters.AddWithValue("@fechaTermino", registroCE.FechaTermino.ToLocalTime());
+            cmd.Parameters.AddWithValue("@fechainicio", registroCE.Fechainicio);
+            cmd.Parameters.AddWithValue("@fechatermino", registroCE.Fechatermino);
 
-            // Ejecutar consulta
-            int numFilas = cmd.ExecuteNonQuery();
+            int numFilas = 0;
 
-            // Definir el nuevo id
-            int nuevoID;
+            /***********************
+             * Iniciar transaccion *
+            ************************/
 
-            // Condicionar filas afectadas
+            using (SqlTransaction transaccion = cnx.BeginTransaction())
+            {
+                //vincular comando a la transaccion
+                cmd.Transaction = transaccion;
+                try
+                {
+                    //Ejecutar el comando
+                    numFilas = cmd.ExecuteNonQuery(); // INSERT, UPDATE, DELETE
+                    transaccion.Commit();
+                }
+                catch (Exception)
+                {
+                    transaccion.Rollback();
+                    numFilas = 0;
+                }
+            }
+
+            int nuevoId;
             if (numFilas > 0)
             {
-                // Creamos la nueva consulta
-                cmd.CommandText = "select max(id) as nuevoId from Registro" +
-                    " where idProfesor = @idProfesor";
-
-                // Editar parametro
+                cmd.CommandText = "select max(id) as nuevoId from registro where idProfesor=@idProfesor";
                 cmd.Parameters["@idProfesor"].Value = registroCE.IdProfesor;
-
-                // Ejecutar consulta
-                SqlDataReader dataReader = cmd.ExecuteReader();
-
-                // Leer reader
-                if (dataReader.Read())
+                SqlDataReader drRegistro = cmd.ExecuteReader();
+                if (drRegistro.Read())
                 {
-                    nuevoID = (int)dataReader["nuevoId"];
+                    nuevoId = Convert.ToInt32(drRegistro["nuevoId"]);
                 }
                 else
                 {
-                    nuevoID = 0;
+                    nuevoId = 0;
                 }
             }
             else
             {
-                nuevoID = 0;
+                nuevoId = 0;
             }
+            cnx.Close();
 
-            // Cerrar la conexion
-            cn.Close();
-
-            // Retornamos el nuevo id
-            return nuevoID;
-        }
-
-        // Leer
-        public List<RegistroCE> Leer()
-        {
-            // establecer conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrir conexion
-            cn.Open();
-
-            // Crear comando
-            SqlCommand cmd = cn.CreateCommand();
-
-            // Definir el tipo de comando
-            cmd.CommandType = CommandType.Text;
-
-            // Establecer consulta
-            cmd.CommandText = "select * from Registro";
-
-            // Instanciar ejecucion de filas
-            SqlDataReader dataReader = cmd.ExecuteReader();
-
-            // crear lista
-            List<RegistroCE> registroCEs = new List<RegistroCE>();
-
-            // Rellenar registros
-            while (dataReader.Read())
-            {
-                int id = (int)dataReader["id"];
-                int idProfesor = (int)dataReader["idProfesor"];
-                int idCurso = (int)dataReader["idCurso"];
-                DateTime fechaInicio = (DateTime)dataReader["fechaInicio"];
-                DateTime fechaTermino = (DateTime)dataReader["fechaTermino"];
-
-                // instanciar objeto
-                RegistroCE registroCE = new RegistroCE(id, idProfesor, idCurso, fechaInicio, fechaTermino);
-
-                // agregar a lista
-                registroCEs.Add(registroCE);
-            }
-
-            // Cerrar conexion
-            cn.Close();
-
-            // Retornar lista
-            return registroCEs;
-        }
-
-        // Actualizar
-        public int Actualizar(RegistroCE registroCE)
-        {
-            // Establecer conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrir conexion
-            cn.Open();
-
-            // Crear comando
-            SqlCommand cmd = cn.CreateCommand();
-
-            // Definir el tipo de comando
-            cmd.CommandType = CommandType.Text;
-
-            // Establecer consulta
-            cmd.CommandText = "update Registro set" +
-                " idProfesor = @idProfesor, idCurso = @idCurso, fechaInicio = @fechaInicio, fechaTermino = @fechaTermino" +
-                " where id = @id";
-
-            // Definir los parametros
-            cmd.Parameters.AddWithValue("@idProfesor", registroCE.IdProfesor);
-            cmd.Parameters.AddWithValue("@idCurso", registroCE.IdCurso);
-            cmd.Parameters.AddWithValue("@fechaInicio", registroCE.FechaInicio);
-            cmd.Parameters.AddWithValue("@fechaTermino", registroCE.FechaTermino);
-            cmd.Parameters.AddWithValue("@id", registroCE.Id);
-
-            // Ejecutar comando
-            int numFilas = cmd.ExecuteNonQuery();
-
-            // cerrar conexion
-            cn.Close();
-
-            // retornar cantidad de filas afectadas
-            return numFilas;
-        }
-
-        // Eliminar
-        public int Eliminar(RegistroCE registroCE)
-        {
-            // Establecer conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrir conexion
-            cn.Open();
-
-            // Crear comando
-            SqlCommand cmd = cn.CreateCommand();
-
-            // Definir el tipo de comando
-            cmd.CommandType = CommandType.Text;
-
-            // Establecer consulta
-            cmd.CommandText = "delete from Registro where id = @id";
-
-            // Definir los parametros
-            cmd.Parameters.AddWithValue("@id", registroCE.Id);
-
-            // Ejecutar comando
-            int numFilas = cmd.ExecuteNonQuery();
-
-            // cerrar conexion
-            cn.Close();
-
-            // retornar cantidad de filas afectadas
-            return numFilas;
+            return nuevoId;
         }
     }
 }
