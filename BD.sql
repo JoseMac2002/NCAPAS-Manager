@@ -1,6 +1,6 @@
-CREATE DATABASE BD_MACURI;
+CREATE DATABASE BD_JMACURI;
 
-USE BD_MACURI;
+USE BD_JMACURI;
 
 
 create table Profesor
@@ -40,27 +40,22 @@ descripcion varchar(100)
 create table Registro
 (
 id int identity(1,1) primary key not null,
-idRegistro int 
-foreign key (idProfesor) references profesor(id),
-idProfesor int 
-foreign key (idProfesor) references profesor(id),
-idCurso int
-foreign key (idCurso) references curso(id),
+idProfesor int ,
+idCurso int,
 fechaInicio date,
 fechaTermino date
 )
 
 create table Notas
 (
-id int identity(1,1) primary key not null,
-idEstudiante int
-foreign key (idEstudiante) references estudiante(id),
-idEvaluacion int
-foreign key (idEvaluacion) references evaluacion(id),
+id int identity(1,1) primary key,
+idRegistro int ,
+idEstudiante int,
+idEvaluacion int,
 nota varchar(2),
-idRegistro int 
-foreign key (idRegistro) references registro(id)
 )
+
+
 
 ALTER TABLE Registro
 ADD FOREIGN KEY (idProfesor) REFERENCES Profesor(id);
@@ -87,12 +82,27 @@ insert into Profesor (nombre, dni, FechaNac, Telefono,Correo) values ('carlos am
 
 insert into Estudiante(nombre, dni, fechaNac, telefono,correo,nivel,grado) values ('jose macuri','72614325','2002-07-03','917191954','jose@correo.com','Secun','5');
 insert into Estudiante(nombre, dni, fechaNac, telefono,correo,nivel,grado) values ('juan mamani','09564321','2001-12-21','998877661','mamani@correo.com','Secun','1');
+insert into Estudiante(nombre, dni, fechaNac, telefono,correo,nivel,grado) values ('Jhon mujica','09564321','2001-12-21','123456789','mujica@correo.com','Secun','4');
 
+insert into Curso(Nombre) values('Algebra');
+insert into Curso(Nombre) values('Fisica');
+insert into Curso(Nombre) values('Geometria');
+insert into Curso(Nombre) values('Informatica');
+
+insert into Evaluacion(descripcion) values ('Examen Final');
+insert into Evaluacion(descripcion) values ('Examen Parcial');
+insert into Evaluacion(descripcion) values ('Test 1');
+insert into Evaluacion(descripcion) values ('Test 2');
+
+
+select * from Estudiante;
 
 select * from Registro
 select * from Notas;
 
+
+
 use master;
 
-drop database BD_MACURI;
+drop database BD_JMACURI;
 
