@@ -17,3 +17,6 @@ D:\Senati-Proyectos\TRABAJO_MACURI\CapaPresentacion\bin\Debug\CapaDatos.pdb
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaPresentacion\obj\Debug\CapaPresentacion.csproj.CopyComplete
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaPresentacion\obj\Debug\CapaPresentacion.AlumnosCP.resources
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaPresentacion\obj\Debug\CapaPresentacion.CursoCP.resources
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaPresentacion\obj\Debug\CapaPresentacion.EvaluacionCP.resources
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaPresentacion\obj\Debug\CapaPresentacion.PrincipalCPcs.resources
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaPresentacion\obj\Debug\CapaPresentacion.RegitrosCP.resources

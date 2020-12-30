@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using CapaEntidad;
 using System.Data;
 using System.Data.SqlClient;
+
 namespace CapaDatos
 {
     public class RegistroCD
@@ -26,15 +28,15 @@ namespace CapaDatos
             cmd.CommandType = CommandType.Text;
 
             // Establecer la consulta
-            cmd.CommandText = "insert Registro " +
-                "into (idProfesor, idCurso, fechaInicio, fechaTermino) " +
+            cmd.CommandText = "insert into Registro " +
+                "(idProfesor, idCurso, fechaInicio, fechaTermino) " +
                 "values (@idProfesor, @idCurso, @fechaInicio, @fechaTermino)";
 
             // Agregar parametros
             cmd.Parameters.AddWithValue("@idProfesor", registroCE.IdProfesor);
             cmd.Parameters.AddWithValue("@idCurso", registroCE.IdCurso);
-            cmd.Parameters.AddWithValue("@fechaInicio", registroCE.FechaInicio.ToLocalTime());
-            cmd.Parameters.AddWithValue("@fechaTermino", registroCE.FechaTermino.ToLocalTime());
+            cmd.Parameters.AddWithValue("@fechaInicio", registroCE.Fechainicio.ToLocalTime());
+            cmd.Parameters.AddWithValue("@fechaTermino", registroCE.Fechatermino.ToLocalTime());
 
             // Ejecutar consulta
             int numFilas = cmd.ExecuteNonQuery();
@@ -58,7 +60,7 @@ namespace CapaDatos
                 // Leer reader
                 if (dataReader.Read())
                 {
-                    nuevoID = (int)dataReader["nuevoId"];
+                    nuevoID = Convert.ToInt32(dataReader["nuevoId"]);
                 }
                 else
                 {
@@ -104,11 +106,11 @@ namespace CapaDatos
             // Rellenar registros
             while (dataReader.Read())
             {
-                int id = (int)dataReader["id"];
-                int idProfesor = (int)dataReader["idProfesor"];
-                int idCurso = (int)dataReader["idCurso"];
-                DateTime fechaInicio = (DateTime)dataReader["fechaInicio"];
-                DateTime fechaTermino = (DateTime)dataReader["fechaTermino"];
+                int id = Convert.ToInt32(dataReader["id"]);
+                int idProfesor = Convert.ToInt32(dataReader["idProfesor"]);
+                int idCurso = Convert.ToInt32(dataReader["idCurso"]);
+                DateTime fechaInicio = Convert.ToDateTime(dataReader["fechaInicio"]);
+                DateTime fechaTermino = Convert.ToDateTime(dataReader["fechaTermino"]);
 
                 // instanciar objeto
                 RegistroCE registroCE = new RegistroCE(id, idProfesor, idCurso, fechaInicio, fechaTermino);
@@ -147,8 +149,8 @@ namespace CapaDatos
             // Definir los parametros
             cmd.Parameters.AddWithValue("@idProfesor", registroCE.IdProfesor);
             cmd.Parameters.AddWithValue("@idCurso", registroCE.IdCurso);
-            cmd.Parameters.AddWithValue("@fechaInicio", registroCE.FechaInicio);
-            cmd.Parameters.AddWithValue("@fechaTermino", registroCE.FechaTermino);
+            cmd.Parameters.AddWithValue("@fechaInicio", registroCE.Fechainicio);
+            cmd.Parameters.AddWithValue("@fechaTermino", registroCE.Fechatermino);
             cmd.Parameters.AddWithValue("@id", registroCE.Id);
 
             // Ejecutar comando

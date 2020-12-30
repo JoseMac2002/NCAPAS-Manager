@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using CapaEntidad;
 using System.Data;
 using System.Data.SqlClient;
@@ -11,245 +12,226 @@ namespace CapaDatos
 {
     public class EstudianteCD
     {
-        // Crear
-        public int Crear(EstudianteCE estudianteCE)
+        public EstudianteCE buscarId(int IdBuscado)
         {
-            // Establecemos conexion
             SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrir conexion
             cn.Open();
 
-            // Crear comando
             SqlCommand cmd = cn.CreateCommand();
-
-            // Establecer tipo de comando
             cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "select * from estudiante where id=@id";
+            cmd.Parameters.AddWithValue("@id", IdBuscado);
+            SqlDataReader drEstudiante = cmd.ExecuteReader();//select
+            int id;
+            string nombre;
+            string dni;
+            DateTime fechaNac;
+            string telefono;
+            string correo;
+            string nivel;
+            string grado;
 
-            // Establecer consulta
-            cmd.CommandText = "insert into Estudiante(nombre, dni, fechaNac, telefono, correo, nivel, grado)" +
-                " values(@nombre, @dni, @fechaNac, @telefono, @correo, @nivel, @grado)";
+            if (drEstudiante.Read())
+            {
+                id = Convert.ToInt32(drEstudiante["id"]);
+                nombre = Convert.ToString(drEstudiante["nombre"]);
+                dni = Convert.ToString(drEstudiante["dni"]);
+                fechaNac = Convert.ToDateTime(drEstudiante["fechanac"]);
+                telefono = Convert.ToString(drEstudiante["telefono"]);
+                correo = Convert.ToString(drEstudiante["correo"]);
+                nivel = Convert.ToString(drEstudiante["nivel"]);
+                grado = Convert.ToString(drEstudiante["grado"]);
+            }
+            else
+            {
+                id = 0;
+                nombre = "";
+                dni = "";
+                fechaNac = DateTime.Now;
+                nivel = "";
+                correo = "";
+                telefono = "";
+                grado = "";
+            }
+            cn.Close();
+            //Asignar los valores a las propiedades de ProductoCE
+            EstudianteCE estudianteCE = new EstudianteCE(id, nombre, dni, fechaNac, telefono, correo, nivel, grado);
+            return estudianteCE;
+        }
+        public List<EstudianteCE> buscarNombre(string NomBuscado)
+        {
+            SqlConnection cnx = ConexionCD.conectarBD();
+            cnx.Open();
+            SqlCommand cmd = cnx.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "select * from estudiante " +
+                "where nombre like '%' + @nombre + '%'";
+            cmd.Parameters.AddWithValue("@nombre", NomBuscado);
+            SqlDataReader drEstudiante = cmd.ExecuteReader(); // SELECT
 
-            // Agregamos los parametros con sus valores
+            List<EstudianteCE> estudiantesCE = new List<EstudianteCE>();
+
+            while (drEstudiante.Read())
+            {
+                int id = Convert.ToInt32(drEstudiante["id"]);
+                string nombre = Convert.ToString(drEstudiante["nombre"]);
+                string dni = Convert.ToString(drEstudiante["dni"]);
+                DateTime fechanac = Convert.ToDateTime(drEstudiante["fechanac"]);
+                string telefono = Convert.ToString(drEstudiante["telefono"]);
+                string correo = Convert.ToString(drEstudiante["correo"]);
+                string nivel = Convert.ToString(drEstudiante["nivel"]);
+                string grado = Convert.ToString(drEstudiante["grado"]);
+
+                EstudianteCE estudianteCE = new EstudianteCE(id, nombre, dni, fechanac, telefono, correo, nivel, grado);
+
+                estudiantesCE.Add(estudianteCE);
+
+            }
+
+            cnx.Close();
+
+            return estudiantesCE;
+        }
+        public int insertar(EstudianteCE estudianteCE)
+        {
+            SqlConnection cnx = ConexionCD.conectarBD();
+            cnx.Open();
+            SqlCommand cmd = cnx.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "insert into estudiante (nombre, dni, fechanac, telefono, correo, nivel, grado) " +
+                "values (@nombre, @dni, @fechanac,@telefono, @correo, @nivel, @grado)";
             cmd.Parameters.AddWithValue("@nombre", estudianteCE.Nombre);
             cmd.Parameters.AddWithValue("@dni", estudianteCE.Dni);
-            cmd.Parameters.AddWithValue("@fechaNac", estudianteCE.FechaNac.ToLocalTime());
+            cmd.Parameters.AddWithValue("@fechanac", estudianteCE.Fechanac);
             cmd.Parameters.AddWithValue("@telefono", estudianteCE.Telefono);
             cmd.Parameters.AddWithValue("@correo", estudianteCE.Correo);
             cmd.Parameters.AddWithValue("@nivel", estudianteCE.Nivel);
             cmd.Parameters.AddWithValue("@grado", estudianteCE.Grado);
+            int numFilas = 0;
 
-            // Ejecutamos la consulta
-            int numFilas = cmd.ExecuteNonQuery();
+            /***********************
+             * Iniciar transaccion *
+            ************************/
 
-            // Definimos el nuevo id
-            int nuevoID;
-
-            // Extraeremos el nuevo id
+            using (SqlTransaction transaccion = cnx.BeginTransaction())
+            {
+                //vincular comando a la transaccion
+                cmd.Transaction = transaccion;
+                try
+                {
+                    //Ejecutar el comando
+                    numFilas = cmd.ExecuteNonQuery(); // INSERT, UPDATE, DELETE
+                    transaccion.Commit();
+                }
+                catch (Exception)
+                {
+                    transaccion.Rollback();
+                    numFilas = 0;
+                }
+            }
+            int nuevoId;
             if (numFilas > 0)
             {
-                // Establecemos la nueva consulta
-                cmd.CommandText = "select max(id) as nuevoId from Estudiante where nombre = @nombre";
-
-                // Editamos el parametro
+                cmd.CommandText = "select max(id) as nuevoId from estudiante " +
+                    "where nombre=@nombre";
                 cmd.Parameters["@nombre"].Value = estudianteCE.Nombre;
-
-                // Ejecutamos parametro
-                SqlDataReader dataReader = cmd.ExecuteReader();
-
-                // lectura de nuevo id
-                if (dataReader.Read())
+                SqlDataReader drEstudiante = cmd.ExecuteReader();
+                if (drEstudiante.Read())
                 {
-                    nuevoID = Convert.ToInt32(dataReader["nuevoId"]);
+                    nuevoId = Convert.ToInt32(drEstudiante["nuevoId"]);
                 }
                 else
                 {
-                    nuevoID = 0;
+                    nuevoId = 0;
                 }
             }
             else
             {
-                // si no se cumple el id sera 0
-                nuevoID = 0;
+                nuevoId = 0;
             }
 
-            // cerramos la conexion
-            cn.Close();
+            cnx.Close();
 
-            // Retornamos el nuevo id
-            return nuevoID;
+            return nuevoId;
         }
-
-        // Leer
-        public List<EstudianteCE> Leer()
+        public int actualizar(EstudianteCE estudianteCE)
         {
-            // Establecer conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrir conexion
-            cn.Open();
-
-            // Crear comando
-            SqlCommand cmd = cn.CreateCommand();
-
-            // Definir el tipo de comanod
+            SqlConnection cnx = ConexionCD.conectarBD();
+            cnx.Open();
+            SqlCommand cmd = cnx.CreateCommand();
             cmd.CommandType = CommandType.Text;
-
-            // Definir la consulta
-            cmd.CommandText = "select * from Estudiante";
-
-            // Ejecutar la consulta
-            SqlDataReader dataReader = cmd.ExecuteReader();
-
-            // Creamos lista de almacenamiento
-            List<EstudianteCE> estudianteCEs = new List<EstudianteCE>();
-
-            // Lectura de filas
-            while (dataReader.Read())
-            {
-                int id = Convert.ToInt32(dataReader["id"]);
-                string nombre = dataReader["nombre"].ToString();
-                int dni = (int)dataReader["dni"];
-                DateTime fechaNac = (DateTime)dataReader["fechaNac"];
-                int telefono = (int)dataReader["telefono"];
-                string correo = (string)dataReader["correo"];
-                string nivel = (string)dataReader["nivel"];
-                int grado = (int)dataReader["grado"];
-
-                EstudianteCE estudianteCE = new EstudianteCE(id, nombre, dni, fechaNac, telefono, correo, nivel, grado);
-
-                estudianteCEs.Add(estudianteCE);
-            }
-
-            // Cerramos la conexion
-            cn.Close();
-
-            // retornamos lista
-            return estudianteCEs;
-        }
-
-        // Actualizar
-        public int Actualizar(EstudianteCE estudianteCE)
-        {
-            // Establecer conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrir conexion
-            cn.Open();
-
-            // Crear comando
-            SqlCommand cmd = cn.CreateCommand();
-
-            // Definir el tipo de comando
-            cmd.CommandType = CommandType.Text;
-
-            // Establecer consulta
-            cmd.CommandText = "update Estudiante set" +
-                "nombre = @nombre, dni = @dni, fechaNac = @fechaNac, telefono = @telefono, correo = @correo, nivel = @nivel, grado = @grado" +
-                "where id = @id";
-
-            // Agregar los parametros
+            cmd.CommandText = "update estudiante set nombre=@nombre, dni=@dni, fechanac=@fechanac, " +
+                "telefono=@telefono, correo=@correo, nivel=@nivel, grado=@grado where id=@id";
             cmd.Parameters.AddWithValue("@nombre", estudianteCE.Nombre);
             cmd.Parameters.AddWithValue("@dni", estudianteCE.Dni);
-            cmd.Parameters.AddWithValue("@fechaNac", estudianteCE.FechaNac);
+            cmd.Parameters.AddWithValue("@fechanac", estudianteCE.Fechanac);
             cmd.Parameters.AddWithValue("@telefono", estudianteCE.Telefono);
             cmd.Parameters.AddWithValue("@correo", estudianteCE.Correo);
             cmd.Parameters.AddWithValue("@nivel", estudianteCE.Nivel);
             cmd.Parameters.AddWithValue("@grado", estudianteCE.Grado);
             cmd.Parameters.AddWithValue("@id", estudianteCE.Id);
 
-            // Ejecutamos la consulta
-            int numFilas = cmd.ExecuteNonQuery();
+            int numFilas = 0;
 
-            // Cerramos la conexion
-            cn.Close();
+            /***********************
+             * Iniciar transaccion *
+            ************************/
 
-            // retornamos el numero de filas afectadas
+            using (SqlTransaction transaccion = cnx.BeginTransaction())
+            {
+                //vincular comando a la transaccion
+                cmd.Transaction = transaccion;
+                try
+                {
+                    //Ejecutar el comando
+                    numFilas = cmd.ExecuteNonQuery(); // INSERT, UPDATE, DELETE
+                    transaccion.Commit();
+                }
+                catch (Exception)
+                {
+                    transaccion.Rollback();
+                    numFilas = 0;
+                }
+            }
+            cnx.Close();
+
             return numFilas;
+
         }
-
-        // Eliminar
-        public int Eliminar(EstudianteCE estudianteCE)
+        public int eliminar(EstudianteCE estudianteCE)
         {
-            // Establecer conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrir conexion
-            cn.Open();
-
-            // Crear comando
-            SqlCommand cmd = cn.CreateCommand();
-
-            // Definir el tipo de comando
+            SqlConnection cnx = ConexionCD.conectarBD();
+            cnx.Open();
+            SqlCommand cmd = cnx.CreateCommand();
             cmd.CommandType = CommandType.Text;
-
-            // Establecer consulta
-            cmd.CommandText = "delete from Estudiante where id = @id";
-
-            // Agregar los parametros
+            cmd.CommandText = "delete from estudiante where id=@id";
             cmd.Parameters.AddWithValue("@id", estudianteCE.Id);
 
-            // Ejecutamos la consulta
-            int numFilas = cmd.ExecuteNonQuery();
+            int numFilas = 0;
 
-            // Cerramos la conexion
-            cn.Close();
+            /***********************
+             * Iniciar transaccion *
+            ************************/
 
-            // retornamos el numero de filas afectadas
+            using (SqlTransaction transaccion = cnx.BeginTransaction())
+            {
+                //vincular comando a la transaccion
+                cmd.Transaction = transaccion;
+                try
+                {
+                    //Ejecutar el comando
+                    numFilas = cmd.ExecuteNonQuery(); // INSERT, UPDATE, DELETE
+                    transaccion.Commit();
+                }
+                catch (Exception)
+                {
+                    transaccion.Rollback();
+                    numFilas = 0;
+                }
+            }
+            cnx.Close();
+
             return numFilas;
         }
-
-        // Buscar por Nombre
-        public List<EstudianteCE> BusquedaNombre(string nombreBuscar)
-        {
-            // Establecer conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrir conexion
-            cn.Open();
-
-            // Crear comando
-            SqlCommand cmd = cn.CreateCommand();
-
-            // Definir el tipo de comanod
-            cmd.CommandType = CommandType.Text;
-
-            // Definir la consulta
-            cmd.CommandText = "select * from Estudiante" +
-                " where nombre like '%' + @nombre + '%'";
-
-            // Agregar parametros
-            cmd.Parameters.AddWithValue("@nombre", nombreBuscar);
-
-            // Ejecutar la consulta
-            SqlDataReader dataReader = cmd.ExecuteReader();
-
-            // Creamos lista de almacenamiento
-            List<EstudianteCE> estudianteCEs = new List<EstudianteCE>();
-
-            // Lectura de filas
-            while (dataReader.Read())
-            {
-                int id = Convert.ToInt32(dataReader["id"]);
-                string nombre = dataReader["nombre"].ToString();
-                int dni = Convert.ToInt32(dataReader["dni"]);
-                DateTime fechaNac = (DateTime)dataReader["fechaNac"];
-                int telefono = Convert.ToInt32(dataReader["telefono"]);
-                string correo = (string)dataReader["correo"];
-                string nivel = (string)dataReader["nivel"];
-                int grado = Convert.ToInt32(dataReader["grado"]);
-
-                EstudianteCE estudianteCE = new EstudianteCE(id, nombre, dni, fechaNac, telefono, correo, nivel, grado);
-
-                estudianteCEs.Add(estudianteCE);
-            }
-
-            // Cerramos la conexion
-            cn.Close();
-
-            // retornamos lista
-            return estudianteCEs;
-        }
-
     }
 }

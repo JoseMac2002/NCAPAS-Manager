@@ -1,11 +1,22 @@
-D:\Senati-Proyectos\TRABAJO_MACURI\CapaNegocio\obj\Debug\CapaNegocio.csprojAssemblyReference.cache
-D:\Senati-Proyectos\TRABAJO_MACURI\CapaNegocio\obj\Debug\CapaNegocio.csproj.CoreCompileInputs.cache
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaNegocio\bin\Debug\CapaNegocio.dll
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaNegocio\bin\Debug\CapaNegocio.pdb
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaNegocio\bin\Debug\CapaDatos.dll
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaNegocio\bin\Debug\CapaEntidad.dll
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaNegocio\bin\Debug\CapaDatos.pdb
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaNegocio\bin\Debug\CapaEntidad.pdb
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaNegocio\obj\Debug\CapaNegocio.csprojAssemblyReference.cache
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaNegocio\obj\Debug\CapaNegocio.csproj.CoreCompileInputs.cache
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaNegocio\obj\Debug\CapaNegocio.csproj.CopyComplete
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaNegocio\obj\Debug\CapaNegocio.dll
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaNegocio\obj\Debug\CapaNegocio.pdb
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaNegocio\bin\Debug\CapaNegocio.dll
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaNegocio\bin\Debug\CapaNegocio.pdb
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaNegocio\bin\Debug\CapaDatos.dll
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaNegocio\bin\Debug\CapaEntidad.dll
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaNegocio\bin\Debug\CapaDatos.pdb
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaNegocio\bin\Debug\CapaEntidad.pdb
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaNegocio\obj\Debug\CapaNegocio.csprojAssemblyReference.cache
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaNegocio\obj\Debug\CapaNegocio.csproj.CoreCompileInputs.cache
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaNegocio\obj\Debug\CapaNegocio.csproj.CopyComplete
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaNegocio\obj\Debug\CapaNegocio.dll
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaNegocio\obj\Debug\CapaNegocio.pdb

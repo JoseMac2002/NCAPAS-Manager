@@ -21,25 +21,17 @@ namespace CapaPresentacion
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            if (txtBuscar.Text.Length > 0)
-            {
-                Buscar(txtBuscar.Text);
-            }
-            else
-            {
-                Leer();
-            }
+            dgvDatos.DataSource = null;
+            string buscar = txtBuscar.Text;
+
+            CursoCN clienteCN = new CursoCN();
+            //Ejecutar el metodo de busqueda 
+            List<CursoCE> cursoCEs = clienteCN.buscarNombre(buscar);
+            //Asignar la coleccion al grid
+            dgvDatos.DataSource = cursoCEs;
         }
-        private void Leer()
-        {
-            CursoCN cursoCN = new CursoCN();
-            dgvDatos.DataSource = cursoCN.Leer();
-        }
-        private void Buscar(string name)
-        {
-            CursoCN cursoCN = new CursoCN();
-            dgvDatos.DataSource = cursoCN.LeerNombre(name);
-        }
+       
+      
 
         private void btnCrear_Click(object sender, EventArgs e)
         {
@@ -52,7 +44,7 @@ namespace CapaPresentacion
                     CursoCE cursoCE = new CursoCE(0, nombre);
                     CursoCN cursoCN = new CursoCN();
 
-                    int id = cursoCN.Crear(cursoCE);
+                    int id = cursoCN.insertar(cursoCE);
 
                     txtId.Text = id.ToString();
                 }
@@ -101,7 +93,7 @@ namespace CapaPresentacion
 
                     CursoCN cursoCN = new CursoCN();
 
-                    int numFil = cursoCN.Actualizar(cursoCE);
+                    int numFil = cursoCN.actualizar(cursoCE);
 
                     MessageBox.Show(numFil + " Filas afectadas");
                 }
@@ -125,7 +117,7 @@ namespace CapaPresentacion
                 CursoCE cursoCE = new CursoCE();
                 cursoCE.Id = id;
                 CursoCN cursoCN = new CursoCN();
-                int numFil = cursoCN.Eliminar(cursoCE);
+                int numFil = cursoCN.eliminar(cursoCE);
                 MessageBox.Show(numFil + " Filas afectadas");
                 if (numFil > 0)
                 {

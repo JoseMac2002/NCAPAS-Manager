@@ -11,24 +11,43 @@ namespace CapaEntidad
         private int id;
         private int idProfesor;
         private int idCurso;
-        private DateTime fechaInicio;
-        private DateTime fechaTermino;
+        private DateTime fechainicio;
+        private DateTime fechatermino;
 
-        public RegistroCE() { }
-
-        public RegistroCE(int id, int idProfesor, int idCurso, DateTime fechaInicio, DateTime fechaTermino)
+        public int Id
         {
-            this.Id = id;
-            this.IdProfesor = idProfesor;
-            this.IdCurso = idCurso;
-            this.FechaInicio = fechaInicio;
-            this.FechaTermino = fechaTermino;
+            set { id = value; }
+            get { return id; }
+        }
+        public int IdProfesor
+        {
+            set { idProfesor = value; }
+            get { return idProfesor; }
+        }
+        public int IdCurso
+        {
+            set { idCurso = value; }
+            get { return idCurso; }
+        }
+        public DateTime Fechainicio
+        {
+            set { fechainicio = value; }
+            get { return fechainicio; }
+        }
+        public DateTime Fechatermino
+        {
+            set { fechatermino = value; }
+            get { return fechatermino; }
         }
 
-        public int Id { get => id; set => id = value; }
-        public int IdProfesor { get => idProfesor; set => idProfesor = value; }
-        public int IdCurso { get => idCurso; set => idCurso = value; }
-        public DateTime FechaInicio { get => fechaInicio; set => fechaInicio = value; }
-        public DateTime FechaTermino { get => fechaTermino; set => fechaTermino = value; }
+        public RegistroCE(){ }
+        public RegistroCE(int id, int idProfesor, int idCurso, DateTime fechainicio, DateTime fechatermino)
+        {
+            this.id = id;
+            this.idProfesor = idProfesor;
+            this.idCurso = idCurso;
+            this.fechainicio = fechainicio;
+            this.fechatermino = fechatermino;
+        }
     }
 }

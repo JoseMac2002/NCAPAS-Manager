@@ -34,12 +34,12 @@ namespace CapaPresentacion
         private void Leer()
         {
             EvaluacionCN evaluacionCN = new EvaluacionCN();
-            dgvDatos.DataSource = evaluacionCN.Leer();
+            dgvDatos.DataSource = evaluacionCN.ListarEvaluacion();
         }
         private void Buscar(string name)
         {
             EvaluacionCN evaluacionCN = new EvaluacionCN();
-            dgvDatos.DataSource = evaluacionCN.BuscarDescripcion(name);
+            dgvDatos.DataSource = evaluacionCN.buscarDescripcion(name);
         }
         private void txtBuscar_TextChanged(object sender, EventArgs e)
         {
@@ -65,7 +65,7 @@ namespace CapaPresentacion
                     EvaluacionCE evaluacionCE = new EvaluacionCE(0, descripcion);
                     EvaluacionCN evaluacionCN = new EvaluacionCN();
 
-                    int id = evaluacionCN.Crear(evaluacionCE);
+                    int id = evaluacionCN.insertar(evaluacionCE);
 
                     txtId.Text = id.ToString();
                 }
@@ -104,7 +104,7 @@ namespace CapaPresentacion
 
                     EvaluacionCN evaluacionCN = new EvaluacionCN();
 
-                    int numFil = evaluacionCN.Actualizar(evaluacionCE);
+                    int numFil = evaluacionCN.actualizar(evaluacionCE);
 
                     MessageBox.Show(numFil + " Filas afectadas");
                 }
@@ -128,7 +128,7 @@ namespace CapaPresentacion
                 EvaluacionCE evaluacionCE = new EvaluacionCE();
                 evaluacionCE.Id = id;
                 EvaluacionCN evaluacionCN = new EvaluacionCN();
-                int numFil = evaluacionCN.Eliminar(evaluacionCE);
+                int numFil = evaluacionCN.eliminar(evaluacionCE);
                 MessageBox.Show(numFil + " Filas afectadas");
                 if (numFil > 0)
                 {

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using CapaDatos;
 using CapaEntidad;
 
@@ -10,19 +12,41 @@ namespace CapaNegocio
 {
     public class EvaluacionCN
     {
-        // Crear
-        public int Crear(EvaluacionCE evaluacionCE)
+        public DataTable ListarEvaluacion()
         {
-            // Instanciamos capa datos
-            EvaluacionCD evaluacionCD = new EvaluacionCD();
-            // Almacenamos el valor del metodo
-            int numFila = evaluacionCD.Crear(evaluacionCE);
-            // Retornamos el valor
-            return numFila;
-
+            EvaluacionCD evaluacionCD = new EvaluacionCD(); 
+            return evaluacionCD.ListarEvaluacion();
         }
-
-        // Leer
+        public EvaluacionCE buscarId(int IdBuscado)
+        {
+            EvaluacionCD evaluacionCD = new EvaluacionCD();
+            EvaluacionCE evaluacionCE = evaluacionCD.buscarId(IdBuscado);
+            return evaluacionCE;
+        }
+        public List<EvaluacionCE> buscarDescripcion(string DesBuscado)
+        {
+            EvaluacionCD evaluacionCD = new EvaluacionCD();
+            List<EvaluacionCE> evaluacionesCE = evaluacionCD.buscarDescripcion(DesBuscado);
+            return evaluacionesCE;
+        }
+        public int insertar(EvaluacionCE evaluacionCE)
+        {
+            EvaluacionCD evaluacionCD = new EvaluacionCD();
+            int nunFilas = evaluacionCD.insertar(evaluacionCE);
+            return nunFilas;
+        }
+        public int actualizar(EvaluacionCE evaluacionCE)
+        {
+            EvaluacionCD evaluacionCD = new EvaluacionCD();
+            int nunFilas = evaluacionCD.actualizar(evaluacionCE);
+            return nunFilas;
+        }
+        public int eliminar(EvaluacionCE evaluacionCE)
+        {
+            EvaluacionCD evaluacionCD = new EvaluacionCD();
+            int nunFilas = evaluacionCD.eliminar(evaluacionCE);
+            return nunFilas;
+        }
         public List<EvaluacionCE> Leer()
         {
             // Instanciamos capaDatos
@@ -30,45 +54,6 @@ namespace CapaNegocio
 
             // Creamos lista
             List<EvaluacionCE> evaluacionCEs = evaluacionCD.Leer();
-
-            // retornamos lista
-            return evaluacionCEs;
-        }
-
-        // Actualizar
-        public int Actualizar(EvaluacionCE evaluacionCE)
-        {
-            // llamamos al metodo que tiene la consulta
-            EvaluacionCD evaluacionCD = new EvaluacionCD();
-
-            // Almacenamos el restultado del metodo en variable
-            int numFilas = evaluacionCD.Actualizar(evaluacionCE);
-
-            // Retornamos valor
-            return numFilas;
-        }
-
-        // Eliminar
-        public int Eliminar(EvaluacionCE evaluacionCE)
-        {
-            // llamamos al metodo que tiene la consulta
-            EvaluacionCD evaluacionCD = new EvaluacionCD();
-
-            // Almacenamos el restultado del metodo en variable
-            int numFilas = evaluacionCD.Eliminar(evaluacionCE);
-
-            // Retornamos valor
-            return numFilas;
-        }
-
-        // Buscar descripcion
-        public List<EvaluacionCE> BuscarDescripcion(string descripcionBuscar)
-        {
-            // Establecemos conexion con la instancia
-            EvaluacionCD evaluacionCD = new EvaluacionCD();
-
-            // Almacenamos el resultado en una lista
-            List<EvaluacionCE> evaluacionCEs = evaluacionCD.BuscarDescripcion(descripcionBuscar);
 
             // retornamos lista
             return evaluacionCEs;

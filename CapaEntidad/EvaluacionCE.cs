@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,15 +12,27 @@ namespace CapaEntidad
         private int id;
         private string descripcion;
 
-        public EvaluacionCE() { }
-
-        public EvaluacionCE(int id, string descripcion)
+        public int Id
         {
-            this.Id = id;
-            this.Descripcion = descripcion;
+            set { id = value; }
+            get { return id; }
+        }
+        public string Descripcion
+        {
+            set { descripcion = value; }
+            get { return descripcion; }
         }
 
-        public int Id { get => id; set => id = value; }
-        public string Descripcion { get => descripcion; set => descripcion = value; }
+        public EvaluacionCE() { }
+        public EvaluacionCE(int id, string descripcion)
+        {
+            this.id = id;
+            this.descripcion = descripcion;
+        }
+
+        public static implicit operator EvaluacionCE(DataTable v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

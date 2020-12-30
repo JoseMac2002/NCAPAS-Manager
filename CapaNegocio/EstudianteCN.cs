@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using CapaDatos;
 using CapaEntidad;
 
@@ -10,46 +11,35 @@ namespace CapaNegocio
 {
     public class EstudianteCN
     {
-        // crear
-        public int Crear(EstudianteCE estudianteCE)
+        public EstudianteCE buscarId(int IdBuscado)
         {
             EstudianteCD estudianteCD = new EstudianteCD();
-
-            int nuevoId = estudianteCD.Crear(estudianteCE);
-
-            return nuevoId;
+            EstudianteCE estudianteCE = estudianteCD.buscarId(IdBuscado);
+            return estudianteCE;
         }
-
-        // Leer
-        public List<EstudianteCE> Leer()
+        public List<EstudianteCE> buscarNombre(string DesNom)
         {
             EstudianteCD estudianteCD = new EstudianteCD();
-            List<EstudianteCE> estudianteCEs = estudianteCD.Leer();
-            return estudianteCEs;
+            List<EstudianteCE> estudiantesCE = estudianteCD.buscarNombre(DesNom);
+            return estudiantesCE;
         }
-
-        // Actualizar
-        public int Actualizar(EstudianteCE estudianteCE)
+        public int insertar(EstudianteCE estudianteCE)
         {
             EstudianteCD estudianteCD = new EstudianteCD();
-            int numFilas = estudianteCD.Actualizar(estudianteCE);
-            return numFilas;
+            int nunFilas = estudianteCD.insertar(estudianteCE);
+            return nunFilas;
         }
-
-        // Eliminar
-        public int Eliminar(EstudianteCE estudianteCE)
+        public int actualizar(EstudianteCE estudianteCE)
         {
             EstudianteCD estudianteCD = new EstudianteCD();
-            int numFilas = estudianteCD.Eliminar(estudianteCE);
-            return numFilas;
+            int nunFilas = estudianteCD.actualizar(estudianteCE);
+            return nunFilas;
         }
-
-        // Busqueda nombre
-        public List<EstudianteCE> BusquedaNombre(string nombre)
+        public int eliminar(EstudianteCE estudianteCE)
         {
             EstudianteCD estudianteCD = new EstudianteCD();
-            List<EstudianteCE> estudianteCEs = estudianteCD.BusquedaNombre(nombre);
-            return estudianteCEs;
+            int nunFilas = estudianteCD.eliminar(estudianteCE);
+            return nunFilas;
         }
     }
 }

@@ -10,34 +10,66 @@ namespace CapaEntidad
     {
         private int id;
         private string nombre;
-        private int dni;
-        private DateTime fechaNac;
-        private int telefono;
+        private string dni;
+        private DateTime fechanac;
+        private string telefono;
         private string correo;
         private string nivel;
-        private int grado;
+        private string grado;
 
-        public EstudianteCE() { }
-
-        public EstudianteCE(int id, string nombre, int dni, DateTime fechaNac, int telefono, string correo, string nivel, int grado)
+        public int Id
         {
-            this.Id = id;
-            this.Nombre = nombre;
-            this.Dni = dni;
-            this.FechaNac = fechaNac;
-            this.Telefono = telefono;
-            this.Correo = correo;
-            this.Nivel = nivel;
-            this.Grado = grado;
+            set { id = value; }
+            get { return id; }
+        }
+        public string Nombre
+        {
+            set { nombre = value; }
+            get { return nombre; }
+        }
+        public string Dni
+        {
+            set { dni = value; }
+            get { return dni; }
+        }
+        public DateTime Fechanac
+        {
+            set { fechanac = value; }
+            get { return fechanac; }
+        }
+        public string Telefono
+        {
+            set { telefono = value; }
+            get { return telefono; }
+        }
+        public string Correo
+        {
+            set { correo = value; }
+            get { return correo; }
+        }
+        public string Nivel
+        {
+            set { nivel = value; }
+            get { return nivel; }
+        }
+        public string Grado
+        {
+            set { grado = value; }
+            get { return grado; }
         }
 
-        public int Id { get => id; set => id = value; }
-        public string Nombre { get => nombre; set => nombre = value; }
-        public int Dni { get => dni; set => dni = value; }
-        public DateTime FechaNac { get => fechaNac; set => fechaNac = value; }
-        public int Telefono { get => telefono; set => telefono = value; }
-        public string Correo { get => correo; set => correo = value; }
-        public string Nivel { get => nivel; set => nivel = value; }
-        public int Grado { get => grado; set => grado = value; }
+        public EstudianteCE(){ }
+        public EstudianteCE(int id, string nombre, string dni, DateTime fechanac, string telefono, 
+            string correo, string nivel, string grado)
+        {
+            this.id = id;
+            this.nombre = nombre;
+            this.dni = dni;
+            this.fechanac = fechanac;
+            this.telefono = telefono;
+            this.correo = correo;
+            this.nivel = nivel;
+            this.grado = grado;
+        }
     }
 }

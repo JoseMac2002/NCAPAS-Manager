@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using CapaDatos;
 using CapaEntidad;
 
@@ -10,55 +11,36 @@ namespace CapaNegocio
 {
     public class ProfesorCN
     {
-        public ProfesorCE BuscarID(int idBuscado)
+        public ProfesorCE buscarId(int IdBuscado)
         {
             ProfesorCD profesorCD = new ProfesorCD();
-
-            ProfesorCE profesorCE = profesorCD.BuscarID(idBuscado);
-
+            ProfesorCE profesorCE = profesorCD.buscarId(IdBuscado);
             return profesorCE;
         }
-        public List<ProfesorCE> BuscarNombre(string nombreBuscar)
+
+        public List<ProfesorCE> buscarNombre(string DesNom)
         {
             ProfesorCD profesorCD = new ProfesorCD();
-            List<ProfesorCE> profesorCEs = profesorCD.BuscarNombre(nombreBuscar);
-
-            return profesorCEs;
-
+            List<ProfesorCE> profesoresCE = profesorCD.buscarNombre(DesNom);
+            return profesoresCE;
         }
-        public List<ProfesorCE> Listar()
+        public int insertar(ProfesorCE profesorCE)
         {
             ProfesorCD profesorCD = new ProfesorCD();
-            List<ProfesorCE> profesorCEs = profesorCD.Listar();
-
-            return profesorCEs;
-
+            int nunFilas = profesorCD.insertar(profesorCE);
+            return nunFilas;
         }
-
-        public int Insertar(ProfesorCE profesorCE)
+        public int actualizar(ProfesorCE profesorCE)
         {
             ProfesorCD profesorCD = new ProfesorCD();
-            int idNuevo = profesorCD.Insertar(profesorCE);
-
-            return idNuevo;
-
+            int nunFilas = profesorCD.actualizar(profesorCE);
+            return nunFilas;
         }
-        public int Actualizar(ProfesorCE profesorCE)
+        public int eliminar(ProfesorCE profesorCE)
         {
             ProfesorCD profesorCD = new ProfesorCD();
-            int filasAfectadas = profesorCD.Actualizar(profesorCE);
-
-            return filasAfectadas;
-
+            int nunFilas = profesorCD.eliminar(profesorCE);
+            return nunFilas;
         }
-        public int Eliminar(ProfesorCE profesorCE)
-        {
-            ProfesorCD profesorCD = new ProfesorCD();
-            int filasAfectadas = profesorCD.Eliminar(profesorCE);
-
-            return filasAfectadas;
-
-        }
-
     }
 }

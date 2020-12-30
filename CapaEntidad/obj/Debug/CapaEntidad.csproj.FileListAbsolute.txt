@@ -1,6 +1,12 @@
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaEntidad\bin\Debug\CapaEntidad.dll
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaEntidad\bin\Debug\CapaEntidad.pdb
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaEntidad\obj\Debug\CapaEntidad.csprojAssemblyReference.cache
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaEntidad\obj\Debug\CapaEntidad.csproj.CoreCompileInputs.cache
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaEntidad\obj\Debug\CapaEntidad.dll
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaEntidad\obj\Debug\CapaEntidad.pdb
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaEntidad\bin\Debug\CapaEntidad.dll
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaEntidad\bin\Debug\CapaEntidad.pdb
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaEntidad\obj\Debug\CapaEntidad.csprojAssemblyReference.cache
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaEntidad\obj\Debug\CapaEntidad.csproj.CoreCompileInputs.cache
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaEntidad\obj\Debug\CapaEntidad.dll
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaEntidad\obj\Debug\CapaEntidad.pdb
-D:\Senati-Proyectos\TRABAJO_MACURI\CapaEntidad\obj\Debug\CapaEntidad.csprojAssemblyReference.cache

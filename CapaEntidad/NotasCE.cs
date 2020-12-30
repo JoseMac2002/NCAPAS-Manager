@@ -11,21 +11,43 @@ namespace CapaEntidad
         private int id;
         private int idEstudiante;
         private int idEvaluacion;
-        private double nota;
+        private int idRegistro;
+        private int nota;
 
-        public NotasCE() { }
-
-        public NotasCE(int id, int idEstudiante, int idEvaluacion, double nota)
+        public int Id
         {
-            this.Id = id;
-            this.IdEstudiante = idEstudiante;
-            this.IdEvaluacion = idEvaluacion;
-            this.Nota = nota;
+            set { id = value; }
+            get { return id; }
+        }
+        public int IdEstudiante
+        {
+            set { idEstudiante = value; }
+            get { return idEstudiante; }
+        }
+        public int IdEvaluacion
+        {
+            set { idEvaluacion = value; }
+            get { return idEvaluacion; }
+        }
+        public int IdRegistro
+        {
+            set { idRegistro = value; }
+            get { return idRegistro; }
+        }
+        public int Nota
+        {
+            set { nota = value; }
+            get { return nota; }
         }
 
-        public int Id { get => id; set => id = value; }
-        public int IdEstudiante { get => idEstudiante; set => idEstudiante = value; }
-        public int IdEvaluacion { get => idEvaluacion; set => idEvaluacion = value; }
-        public double Nota { get => nota; set => nota = value; }
+        public NotasCE(){ }
+        public NotasCE(int id, int idEstudiante, int idEvaluacion, int idRegistro, int nota)
+        {
+            this.id = id;
+            this.idEstudiante = idEstudiante;
+            this.idEvaluacion = idEvaluacion;
+            this.idRegistro = idRegistro;
+            this.nota = nota;
+        }
     }
 }

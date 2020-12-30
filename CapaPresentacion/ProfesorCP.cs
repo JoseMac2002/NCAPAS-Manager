@@ -23,6 +23,7 @@ namespace CapaPresentacion
 
 
         }
+        
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
@@ -33,15 +34,13 @@ namespace CapaPresentacion
                 // Instanciar objeto ProfesorCN
                 ProfesorCN profesorCN = new ProfesorCN();
                 // Insertar retornando los datos del metodo Buscarnombre
-                dgvProfesores.DataSource = profesorCN.BuscarNombre(name);
+                dgvProfesores.DataSource = profesorCN.buscarNombre(name);
             }
             else
             {
-                // Instanciar ProfesorCN
-                ProfesorCN profesorCN = new ProfesorCN();
-                // Extraer todos los datos
-                dgvProfesores.DataSource = profesorCN.Listar();
+
             }
+            
         }
 
      
@@ -75,15 +74,15 @@ namespace CapaPresentacion
                 if (VerificarFormulario())
                 {
                     string nombre = txtNombre.Text;
-                    int dni = Convert.ToInt32(txtDNI.Text);
+                    string dni = (txtDNI.Text);
                     DateTime fechaNac = dtpFechaNac.Value;
-                    int telefono = Convert.ToInt32(txtTelefono.Text);
+                    string telefono =(txtTelefono.Text);
                     string correo = txtCorreo.Text;
 
                     ProfesorCE profesorCE = new ProfesorCE(0, nombre, dni, fechaNac, telefono, correo);
                     ProfesorCN profesorCN = new ProfesorCN();
 
-                    int idNuevo = profesorCN.Insertar(profesorCE);
+                    int idNuevo = profesorCN.insertar(profesorCE);
                     txtId.Text = idNuevo.ToString();
                 }
                 else
@@ -174,16 +173,16 @@ namespace CapaPresentacion
                 {
                     int id = Convert.ToInt32(txtId.Text);
                     string nombre = txtNombre.Text;
-                    int dni = Convert.ToInt32(txtDNI.Text);
+                    string dni = txtDNI.Text;
                     DateTime fechaNac = dtpFechaNac.Value;
-                    int telefono = Convert.ToInt32(txtTelefono.Text);
+                    string telefono = txtTelefono.Text;
                     string correo = txtCorreo.Text;
 
                     ProfesorCE profesorCE = new ProfesorCE(id, nombre, dni, fechaNac, telefono, correo);
 
                     ProfesorCN profesorCN = new ProfesorCN();
 
-                    int numFile = profesorCN.Actualizar(profesorCE);
+                    int numFile = profesorCN.actualizar(profesorCE);
 
                     MessageBox.Show(numFile + " Filas Actualizadas");
 
@@ -211,7 +210,7 @@ namespace CapaPresentacion
                 ProfesorCN profesorCN = new ProfesorCN();
 
 
-                int numFile = profesorCN.Eliminar(profesorCE);
+                int numFile = profesorCN.eliminar(profesorCE);
 
                 MessageBox.Show(numFile + " Filas eliminadas");
 

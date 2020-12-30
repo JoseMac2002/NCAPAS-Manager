@@ -1,9 +1,18 @@
-D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\obj\Debug\CapaDatos.csprojAssemblyReference.cache
-D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\obj\Debug\CapaDatos.csproj.CoreCompileInputs.cache
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaDatos\bin\Debug\CapaDatos.dll
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaDatos\bin\Debug\CapaDatos.pdb
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaDatos\bin\Debug\CapaEntidad.dll
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaDatos\bin\Debug\CapaEntidad.pdb
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaDatos\obj\Debug\CapaDatos.csprojAssemblyReference.cache
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaDatos\obj\Debug\CapaDatos.csproj.CoreCompileInputs.cache
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaDatos\obj\Debug\CapaDatos.csproj.CopyComplete
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaDatos\obj\Debug\CapaDatos.dll
+C:\Users\aniba\OneDrive\Escritorio\Senati\ciclo4\Lenguaje de Programación III\miCSHARP402\Trabajo Final\CapaDatos\obj\Debug\CapaDatos.pdb
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\bin\Debug\CapaDatos.dll
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\bin\Debug\CapaDatos.pdb
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\bin\Debug\CapaEntidad.dll
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\bin\Debug\CapaEntidad.pdb
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\obj\Debug\CapaDatos.csprojAssemblyReference.cache
+D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\obj\Debug\CapaDatos.csproj.CoreCompileInputs.cache
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\obj\Debug\CapaDatos.csproj.CopyComplete
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\obj\Debug\CapaDatos.dll
 D:\Senati-Proyectos\TRABAJO_MACURI\CapaDatos\obj\Debug\CapaDatos.pdb

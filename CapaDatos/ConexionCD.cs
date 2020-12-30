@@ -11,28 +11,25 @@ namespace CapaDatos
     {
         public static SqlConnection conectarBD()
         {
-            // Instanciar Clase que facilita la insercion de datos de conexion
+            //Generar la cadena de Conexion
+            //Instanciar la clase ConnectionStringBuilder
             SqlConnectionStringBuilder generadorCadena = new SqlConnectionStringBuilder();
+            //Asignar los valores de la cadena
+            generadorCadena.DataSource = "localhost"; //servidor
+            generadorCadena.InitialCatalog = "BD_MACURI"; //base de datos
+            generadorCadena.IntegratedSecurity = true; //Activar autenticación Windows
+            //generadorCadena.UserID = "sa"; //usuario
+            //generadorCadena.Password = "123456"; //contraseña
 
-            // Complementar las propiedades
-
-            // Punto de direccion
-            generadorCadena.DataSource = "localhost";
-
-            // Nombre de base de datos
-            generadorCadena.InitialCatalog = "BD_FINAL_MACURI";
-
-            // Autenticacion de windows
-            generadorCadena.IntegratedSecurity = true;
-
-            // Recoger la cadena de conexion
+            //Recoger la cadena de conexion
             string cadenaConexion = generadorCadena.ConnectionString;
 
-            // Instanciar conexion a base de datos
+            //Instanciar una conexion con la cadena generada
             SqlConnection sqlConnection = new SqlConnection(cadenaConexion);
 
-            // Retornar conexion
+            //Retornar el objeto de conexion
             return sqlConnection;
+
         }
     }
 }

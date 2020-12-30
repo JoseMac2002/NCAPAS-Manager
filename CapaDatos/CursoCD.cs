@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using CapaEntidad;
 using System.Data;
 using System.Data.SqlClient;
@@ -11,7 +12,188 @@ namespace CapaDatos
 {
     public class CursoCD
     {
-        // Crear
+        public CursoCE buscarId(int IdBuscado)
+        {
+            SqlConnection cn = ConexionCD.conectarBD();
+            cn.Open();
+
+            SqlCommand cmd = cn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "select * from curso where id=@id";
+            cmd.Parameters.AddWithValue("@id", IdBuscado);
+            SqlDataReader drCurso = cmd.ExecuteReader();//select
+            int id;
+            string nombre;
+
+            if (drCurso.Read())
+            {
+                id = Convert.ToInt32(drCurso["id"]);
+                nombre = Convert.ToString(drCurso["nombre"]);
+            }
+            else
+            {
+                id = 0;
+                nombre = "";
+            }
+            cn.Close();
+            CursoCE cursoCE = new CursoCE(id, nombre);
+            return cursoCE;
+        }
+        public List<CursoCE> buscarNombre(string NomBuscado)
+        {
+            SqlConnection cnx = ConexionCD.conectarBD();
+            cnx.Open();
+            SqlCommand cmd = cnx.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "select * from curso where nombre like '%' + @nombre + '%'";
+            cmd.Parameters.AddWithValue("@nombre", NomBuscado);
+            SqlDataReader drCurso = cmd.ExecuteReader(); // SELECT
+
+            List<CursoCE> cursosCE = new List<CursoCE>();
+
+            while (drCurso.Read())
+            {
+                int id = Convert.ToInt32(drCurso["id"]);
+                string nombre = Convert.ToString(drCurso["nombre"]);
+
+                CursoCE cursoCE = new CursoCE(id, nombre);
+
+                cursosCE.Add(cursoCE);
+
+            }
+
+            cnx.Close();
+
+            return cursosCE;
+        }
+        public int insertar(CursoCE cursoCE)
+        {
+            SqlConnection cnx = ConexionCD.conectarBD();
+            cnx.Open();
+            SqlCommand cmd = cnx.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "insert into curso (nombre) values (@nombre)";
+            cmd.Parameters.AddWithValue("@nombre", cursoCE.Nombre);
+
+            int numFilas = 0;
+
+            /***********************
+             * Iniciar transaccion *
+            ************************/
+
+            using (SqlTransaction transaccion = cnx.BeginTransaction())
+            {
+                //vincular comando a la transaccion
+                cmd.Transaction = transaccion;
+                try
+                {
+                    //Ejecutar el comando
+                    numFilas = cmd.ExecuteNonQuery(); // INSERT, UPDATE, DELETE
+                    transaccion.Commit();
+                }
+                catch (Exception)
+                {
+                    transaccion.Rollback();
+                    numFilas = 0;
+                }
+            }
+            int nuevoId;
+            if (numFilas > 0)
+            {
+                cmd.CommandText = "select max(id) as nuevoId from curso " +
+                    "where nombre=@nombre";
+                cmd.Parameters["@nombre"].Value = cursoCE.Nombre;
+                SqlDataReader drEstudiante = cmd.ExecuteReader();
+                if (drEstudiante.Read())
+                {
+                    nuevoId = Convert.ToInt32(drEstudiante["nuevoId"]);
+                }
+                else
+                {
+                    nuevoId = 0;
+                }
+            }
+            else
+            {
+                nuevoId = 0;
+            }
+
+            cnx.Close();
+
+            return nuevoId;
+        }
+        public int actualizar(CursoCE cursoCE)
+        {
+            SqlConnection cnx = ConexionCD.conectarBD();
+            cnx.Open();
+            SqlCommand cmd = cnx.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "update curso set nombre=@nombre where id=@id";
+            cmd.Parameters.AddWithValue("@nombre", cursoCE.Nombre);
+            cmd.Parameters.AddWithValue("@id", cursoCE.Id);
+
+            int numFilas = 0;
+
+            /***********************
+             * Iniciar transaccion *
+            ************************/
+
+            using (SqlTransaction transaccion = cnx.BeginTransaction())
+            {
+                //vincular comando a la transaccion
+                cmd.Transaction = transaccion;
+                try
+                {
+                    //Ejecutar el comando
+                    numFilas = cmd.ExecuteNonQuery(); // INSERT, UPDATE, DELETE
+                    transaccion.Commit();
+                }
+                catch (Exception)
+                {
+                    transaccion.Rollback();
+                    numFilas = 0;
+                }
+            }
+            cnx.Close();
+
+            return numFilas;
+
+        }
+        public int eliminar(CursoCE cursoCE)
+        {
+            SqlConnection cnx = ConexionCD.conectarBD();
+            cnx.Open();
+            SqlCommand cmd = cnx.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "delete from curso where id=@id";
+            cmd.Parameters.AddWithValue("@id", cursoCE.Id);
+
+            int numFilas = 0;
+
+            /***********************
+             * Iniciar transaccion *
+            ************************/
+
+            using (SqlTransaction transaccion = cnx.BeginTransaction())
+            {
+                //vincular comando a la transaccion
+                cmd.Transaction = transaccion;
+                try
+                {
+                    //Ejecutar el comando
+                    numFilas = cmd.ExecuteNonQuery(); // INSERT, UPDATE, DELETE
+                    transaccion.Commit();
+                }
+                catch (Exception)
+                {
+                    transaccion.Rollback();
+                    numFilas = 0;
+                }
+            }
+            cnx.Close();
+
+            return numFilas;
+        }
         public int Crear(CursoCE cursoCE)
         {
             // Crear conexion
@@ -21,7 +203,7 @@ namespace CapaDatos
             cn.Open();
 
             // Crear comando
-            SqlCommand cmd = new SqlCommand();
+            SqlCommand cmd = cn.CreateCommand();
 
             // Definir tipo de comando
             cmd.CommandType = CommandType.Text;
@@ -34,8 +216,22 @@ namespace CapaDatos
             cmd.Parameters.AddWithValue("@nombre", cursoCE.Nombre);
 
             // Ejecutar comando
-            int numFilas = cmd.ExecuteNonQuery();
+            int numFilas;
 
+            using (SqlTransaction transaction = cn.BeginTransaction())
+            {
+                cmd.Transaction = transaction;
+                try
+                {
+                    numFilas = cmd.ExecuteNonQuery();
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    numFilas = 0;
+                }
+            }
             // Declarar variable nuevo id
             int nuevoID;
 
@@ -71,164 +267,6 @@ namespace CapaDatos
 
             // retornar nuevo id
             return nuevoID;
-        }
-
-        // Leer
-        public List<CursoCE> Leer()
-        {
-            // Crear conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrir conexion
-            cn.Open();
-
-            // Crear comando
-            SqlCommand cmd = new SqlCommand();
-
-            // Definir tipo de comando
-            cmd.CommandType = CommandType.Text;
-
-            // Asignar consulta SQL
-            cmd.CommandText = "SELECT * FROM Curso";
-
-            // Ejecutar comando
-            SqlDataReader dataReader = cmd.ExecuteReader();
-
-            // Crear lista
-            List<CursoCE> cursoCEs = new List<CursoCE>();
-
-            // Leer todas las tablas
-            while (dataReader.Read())
-            {
-                // Leer filas
-                int id = Convert.ToInt32(dataReader["id"]);
-                string nombre = dataReader["nombre"].ToString();
-
-                // Crear nuevo obj
-                CursoCE cursoCE = new CursoCE(id, nombre);
-
-                // Agregar obj a lista
-                cursoCEs.Add(cursoCE);
-            }
-
-            // Cerramos la conexion
-            cn.Close();
-
-            // retornar nuevo id
-            return cursoCEs;
-        }
-
-        // Actualizar
-        public int Actualizar(CursoCE cursoCE)
-        {
-            // Crear conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrir conexion
-            cn.Open();
-
-            // Crear comando
-            SqlCommand cmd = cn.CreateCommand();
-
-            // Definir el tipo de conexion
-            cmd.CommandType = CommandType.Text;
-
-            // Establecer la consulta
-            cmd.CommandText = "update Curso set " +
-                "nombre = @nombre where id = @id";
-
-            // Agregar los parametros
-            cmd.Parameters.AddWithValue("@nombre", cursoCE.Nombre);
-            cmd.Parameters.AddWithValue("@id", cursoCE.Id);
-
-            // Ejecutar parametro
-            int numFilas = cmd.ExecuteNonQuery();
-
-            // Cerramos la conexion
-            cn.Close();
-
-            // Retornamos la cantidad de filas
-            return numFilas;
-        }
-
-        // Eliminar
-        public int Eliminar(CursoCE cursoCE)
-        {
-            // Creamos la conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrimos la conexion
-            cn.Open();
-
-            // Creamos el command
-            SqlCommand cmd = cn.CreateCommand();
-
-            // Definimos el tipo de comando
-            cmd.CommandType = CommandType.Text;
-
-            // Insertamos consulta
-            cmd.CommandText = "delete from Curso where id = @id";
-
-            // Definir parametros
-            cmd.Parameters.AddWithValue("@id", cursoCE.Id);
-
-            // Ejecutamos la consulta y la almacenamos en una variable de tipo entera
-            int numFilas = cmd.ExecuteNonQuery();
-
-            // Cerramos conexion
-            cn.Close();
-
-            // Retornamos la cantidad de filas afectadas
-            return numFilas;
-        }
-
-        // Leer Todos
-        public List<CursoCE> LeerNombre(string nombreBuscar)
-        {
-            // Crear conexion
-            SqlConnection cn = ConexionCD.conectarBD();
-
-            // Abrir conexion
-            cn.Open();
-
-            // Crear comando
-            SqlCommand cmd = cn.CreateCommand();
-
-            // Definir el tipo de comando
-            cmd.CommandType = CommandType.Text;
-
-            // Establecer consulta
-            cmd.CommandText = "select * from Curso " +
-                "where nombre like '%' + @nombre + '%'";
-
-            // Definir parametros
-            cmd.Parameters.AddWithValue("@nombre", nombreBuscar);
-
-            // Establecer ejecucion de comando
-            SqlDataReader dataReader = cmd.ExecuteReader();
-
-            // Establecer lista
-            List<CursoCE> cursoCEs = new List<CursoCE>();
-
-            // Leer datos encontrados
-            while (dataReader.Read())
-            {
-                // Capturar datos encontrado
-                int id = Convert.ToInt32(dataReader["id"]);
-                string nombre = dataReader["nombre"].ToString();
-
-                // Instanciar obj
-                CursoCE cursoCE = new CursoCE(id, nombre);
-
-                // Agrupar obj
-                cursoCEs.Add(cursoCE);
-            }
-
-            // Cerrar conexion
-            cn.Close();
-
-            // Retornar lista
-            return cursoCEs;
         }
     }
 }

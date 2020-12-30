@@ -34,6 +34,23 @@ namespace CapaPresentacion
             dtpFechaNac.Value = DateTime.Now;
         }
 
+        private void btnNuevo_Click(object sender, EventArgs e)
+        {
+            resetControl();
+        }
+        private void resetControl()
+        {
+            txtId.Text = "0";
+            txtNombre.Clear();
+            txtDNI.Clear();
+            txtTelefono.Clear();
+            txtCorreo.Clear();
+            txtBuscar.Clear();
+            txtGrado.Clear();
+            txtNivel.Clear();
+            dgvEstudiantes.DataSource = "";
+        }
+
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             if (txtId.Text == "0")
@@ -41,18 +58,18 @@ namespace CapaPresentacion
                 if (VerificarFormulario())
                 {
                     string nombre = txtNombre.Text;
-                    int dni = Convert.ToInt32(txtDNI.Text);
+                    string dni = (txtDNI.Text);
                     DateTime fechaNac = dtpFechaNac.Value;
-                    int telefono = Convert.ToInt32(txtTelefono.Text);
+                    string telefono = (txtTelefono.Text);
                     string correo = txtCorreo.Text;
                     string nivel = txtNivel.Text;
-                    int grado = Convert.ToInt32(txtGrado.Text);
+                    string grado = (txtGrado.Text);
 
 
                     EstudianteCE estudianteCE = new EstudianteCE(0, nombre, dni, fechaNac, telefono, correo, nivel, grado);
                     EstudianteCN estudianteCN = new EstudianteCN();
 
-                    int idNuevo = estudianteCN.Crear(estudianteCE);
+                    int idNuevo = estudianteCN.insertar(estudianteCE);
                     txtId.Text = idNuevo.ToString();
                 }
                 else
@@ -68,58 +85,72 @@ namespace CapaPresentacion
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            if (txtBuscar.Text.Length > 0)
+            dgvEstudiantes.DataSource = null;
+            string desBusqueda = txtBuscar.Text;
+
+            //Verificar si existe algo para buscar
+            if (desBusqueda.Length >= 2)
             {
-                // extraer nombre a buscar
-                string name = txtBuscar.Text;
-                // Instanciar objeto ProfesorCN
+                //Instanciar la CapaNegocios
                 EstudianteCN estudianteCN = new EstudianteCN();
-                // Insertar retornando los datos del metodo Buscarnombre
-                dgvProfesores.DataSource = estudianteCN.BusquedaNombre(name);
-            }
-            else
-            {
-                // Instanciar ProfesorCN
-                EstudianteCN estudianteCN = new EstudianteCN();
-                // Extraer todos los datos
-                dgvProfesores.DataSource = estudianteCN.Leer();
+                //Ejecutar el metodo de busqueda 
+                List<EstudianteCE> estudianteCE = estudianteCN.buscarNombre(desBusqueda);
+                //Asignar la coleccion al grid
+                dgvEstudiantes.DataSource = estudianteCE;
+
+                dgvEstudiantes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             }
         }
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            if (txtId.Text != "0")
+            //Leer las cajas de textos
+            int id = Convert.ToInt32(txtId.Text);
+            string nombre = txtNombre.Text;
+            string dni = txtDNI.Text;
+            DateTime fechaNac = dtpFechaNac.Value;
+            string telefono = txtTelefono.Text;
+            string correo = txtCorreo.Text;
+            string grado = txtGrado.Text;
+            string nivel = txtNivel.Text;
+                
+            //Instanciar un ClienteCE
+            EstudianteCE estudianteCE = new EstudianteCE(id, nombre, dni, fechaNac, telefono, correo,grado,nivel);
+            //Instanciar un ClienteCN
+            EstudianteCN estudianteCN = new EstudianteCN();
+
+            if (txtId.Text == "0")
             {
-                if (VerificarFormulario())
+                if ((nombre.Length > 0) && (dni.Length ==8) && (telefono.Length >= 9))
                 {
-                    int id = Convert.ToInt32(txtId.Text);
-                    string nombre = txtNombre.Text;
-                    int dni = Convert.ToInt32(txtDNI.Text);
-                    DateTime fechaNac = dtpFechaNac.Value;
-                    int telefono = Convert.ToInt32(txtTelefono.Text);
-                    string correo = txtCorreo.Text;
-                    string nivel = txtNivel.Text;
-                    int grado = Convert.ToInt32(txtGrado.Text);
 
-                    EstudianteCE estudianteCE = new EstudianteCE(id, nombre, dni, fechaNac, telefono, correo,nivel,grado);
+                    //***** NUEVO REGISTRO *****
+                    int nuevoId = estudianteCN.insertar(estudianteCE);
+                    //Mostrar el nuevoId
+                    txtId.Text = nuevoId.ToString();
 
-                    EstudianteCN estudianteCN = new EstudianteCN();
-
-                    int numFile = estudianteCN.Actualizar(estudianteCE);
-
-                    MessageBox.Show(numFile + " Filas Actualizadas");
-
-
+                    //Asignar la coleccion al grid
+                    dgvEstudiantes.DataSource = estudianteCE;
+                    MessageBox.Show("El registro se ha insertado correctamente!",
+                     "Registro", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    resetControl();
                 }
                 else
                 {
-                    MessageBox.Show("Al parecer no se ha llenado correctamente el formulario.");
+                    MessageBox.Show("No se pudo agregar el nuevo registro por falta de algun dato");
                 }
             }
             else
             {
-                MessageBox.Show("No podemos actualizar con datos nulos o inexistentes.");
+                //**** ACTUALIZACION****
+                estudianteCN.actualizar(estudianteCE);
+                //Asignar la coleccion al grid
+                dgvEstudiantes.DataSource = estudianteCE;
+                MessageBox.Show("El registro se ha actualizado correctamente!",
+                 "Registro", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
+            dgvEstudiantes.DataSource = null;
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -133,7 +164,7 @@ namespace CapaPresentacion
                 EstudianteCN estudianteCN = new EstudianteCN();
 
 
-                int numFile = estudianteCN.Eliminar(estudianteCE);
+                int numFile = estudianteCN.eliminar(estudianteCE);
 
                 MessageBox.Show(numFile + " Filas eliminadas");
 
@@ -245,8 +276,22 @@ namespace CapaPresentacion
             }
         }
 
-        
+        private void dgvEstudiantes_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvEstudiantes.SelectedRows.Count >= 1)
+            {
+                //Recoger la fila seleccionada
+                DataGridViewRow fila = dgvEstudiantes.SelectedRows[0];
 
-      
+                txtId.Text = fila.Cells["id"].Value.ToString();
+                txtNombre.Text = fila.Cells["nombre"].Value.ToString();
+                txtDNI.Text = fila.Cells["dni"].Value.ToString();
+                txtTelefono.Text = fila.Cells["telefono"].Value.ToString();
+                txtCorreo.Text = fila.Cells["correo"].Value.ToString();
+                txtNivel.Text = fila.Cells["nivel"].Value.ToString();
+                txtGrado.Text = fila.Cells["grado"].Value.ToString();
+
+            }
+        }
     }
 }
